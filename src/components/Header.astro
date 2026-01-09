@@ -1,0 +1,46 @@
+---
+import { Icon } from 'astro-icon/components';
+
+const navItems = [
+  { name: 'Home', href: '/' },
+  { name: 'Our Services', href: '/#services' },
+  { name: 'About Us', href: '/about' },
+  { name: 'Locations', href: '/locations' },
+  { name: 'Contact', href: '/contact' },
+];
+---
+
+<header class="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100">
+  <div class="container mx-auto px-4 h-20 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-2">
+      <!-- Placeholder Logo until we have the asset locally, utilizing text for now if image fails -->
+      <img src="https://libertysmilecenter.com/wp-content/uploads/2018/01/Liberty-Smile-Center-Logo.png" alt="Liberty Smile Center" class="h-12 w-auto object-contain" />
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden md:flex items-center gap-8">
+      {navItems.map(item => (
+        <a href={item.href} class="text-sm font-medium text-slate-600 hover:text-brand-blue transition-colors">
+          {item.name}
+        </a>
+      ))}
+    </nav>
+
+    <!-- CTA -->
+    <div class="hidden md:flex items-center gap-4">
+      <a href="tel:8334960005" class="flex items-center gap-2 text-brand-blue font-semibold text-sm hover:text-brand-gold transition-colors">
+        <Icon name="mdi:phone" class="size-5" />
+        (833) 496-0005
+      </a>
+      <a href="/contact" class="px-5 py-2.5 bg-brand-blue text-white text-sm font-bold rounded-full shadow-lg hover:bg-blue-700 transition-transform active:scale-95">
+        Book Appointment
+      </a>
+    </div>
+
+    <!-- Mobile Menu Button (Placeholder for interactivity) -->
+    <button class="md:hidden p-2 text-slate-600">
+      <Icon name="mdi:menu" class="size-7" />
+    </button>
+  </div>
+</header>

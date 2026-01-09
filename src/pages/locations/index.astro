@@ -1,0 +1,23 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<script>
+  // Redirect to contact page or show list? List is better.
+</script>
+
+<Layout title="Our Locations | Liberty Smile Center">
+  <div class="py-20 text-center">
+    <h1 class="text-4xl font-bold mb-8">Our Locations</h1>
+    <div class="flex justify-center gap-8">
+      <a href="/locations/south-gate" class="block p-8 bg-white shadow-lg rounded-xl hover:shadow-xl transition-all border border-slate-100">
+        <h2 class="text-2xl font-bold text-brand-blue mb-2">South Gate</h2>
+        <p class="text-slate-600">8330 Long Beach Blvd</p>
+      </a>
+      <a href="/locations/van-nuys" class="block p-8 bg-white shadow-lg rounded-xl hover:shadow-xl transition-all border border-slate-100">
+        <h2 class="text-2xl font-bold text-brand-blue mb-2">Van Nuys</h2>
+        <p class="text-slate-600">6736 Sepulveda Blvd</p>
+      </a>
+    </div>
+  </div>
+</Layout>

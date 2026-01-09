@@ -1,0 +1,83 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Icon } from 'astro-icon/components';
+
+const values = [
+  {
+    icon: "mdi:hand-heart",
+    title: "Compassionate Care",
+    description: "We treat every patient with kindness, respect, and empathy, ensuring a comfortable experience."
+  },
+  {
+    icon: "mdi:certificate",
+    title: "Excellence",
+    description: "Our team is committed to the highest standards of dental practice and continuous education."
+  },
+  {
+    icon: "mdi:account-group",
+    title: "Community Focus",
+    description: "Serving South Gate and Van Nuys with dedication, making quality dentistry accessible to all."
+  }
+];
+---
+
+<Layout title="About Us | Liberty Smile Center">
+  <div class="bg-slate-50 py-12 md:py-20">
+    <div class="container mx-auto px-4">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">About Liberty Smile Center</h1>
+        <p class="text-xl text-slate-600 leading-relaxed">
+          dedicated to fulfilling your dental needs with excellence.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <section class="py-16 md:py-24">
+    <div class="container mx-auto px-4">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-3xl font-bold mb-6">Our Mission</h2>
+          <p class="text-slate-600 mb-6 leading-loose">
+            At Liberty Smile Center, we are more than just a dental office; we are a dedicated team of professionals passionate about oral health. 
+            Our mission is to provide top-tier dental care in a welcoming and safe environment.
+          </p>
+          <p class="text-slate-600 mb-6 leading-loose">
+            We understand that visiting the dentist can be stressful for some, which is why we prioritize patient comfort above all else. 
+            From our friendly front desk staff to our skilled hygienists and dentists, everyone is here to support you.
+          </p>
+          <div class="flex gap-4 mt-8">
+            <a href="/contact" class="px-6 py-3 bg-brand-blue text-white font-bold rounded-lg shadow hover:bg-blue-700 transition-colors">
+              Meet Our Team
+            </a>
+          </div>
+        </div>
+        <div class="relative">
+          <!-- Placeholder for office image -->
+          <div class="aspect-video bg-slate-200 rounded-2xl shadow-xl flex items-center justify-center overflow-hidden">
+             <Icon name="mdi:office-building" class="size-24 text-slate-300" />
+          </div>
+          <!-- Decorative element -->
+          <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-brand-gold/20 rounded-full blur-2xl"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-white border-t border-slate-100">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-16">Our Core Values</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        {values.map(value => (
+          <div class="text-center p-6 rounded-xl hover:bg-slate-50 transition-colors">
+            <div class="w-16 h-16 bg-blue-50 text-brand-blue rounded-full flex items-center justify-center mx-auto mb-6">
+              <Icon name={value.icon} class="size-8" />
+            </div>
+            <h3 class="text-xl font-bold mb-3">{value.title}</h3>
+            <p class="text-slate-600">{value.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

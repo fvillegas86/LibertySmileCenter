@@ -1,0 +1,65 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Icon } from 'astro-icon/components';
+---
+
+<Layout title="Dentist South Gate • Van Nuys • Whittier | Liberty Smile Center">
+	<!-- Hero Section -->
+  <section class="relative bg-slate-50 py-20 lg:py-32 overflow-hidden">
+    <div class="absolute inset-0 z-0 opacity-10 bg-[url('https://libertysmilecenter.com/wp-content/uploads/2021/04/Dental-Implants-Liberty-Smile-Center.jpg')] bg-cover bg-center"></div>
+    <div class="container mx-auto px-4 relative z-10 text-center max-w-4xl">
+      <h1 class="text-5xl lg:text-7xl font-bold text-slate-900 mb-6 tracking-tight">
+        The Art of <span class="text-brand-blue">Dentistry</span>
+      </h1>
+      <p class="text-xl text-slate-600 mb-10 leading-relaxed">
+        Welcome to Liberty Smile Center, dedicated to fulfilling your dental needs with excellence. 
+        Conveniently located in <span class="font-semibold text-brand-blue">South Gate</span> and <span class="font-semibold text-brand-blue">Van Nuys</span>.
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <a href="/contact" class="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-bold text-white transition-all bg-brand-blue rounded-full shadow-lg hover:bg-blue-700 hover:shadow-xl hover:-translate-y-1">
+          <Icon name="mdi:calendar-check" class="size-6" />
+          Book Appointment
+        </a>
+        <a href="/#services" class="inline-flex items-center justify-center gap-2 px-8 py-4 text-base font-bold text-slate-700 transition-all bg-white border border-slate-200 rounded-full shadow-sm hover:bg-slate-50 hover:text-brand-blue hover:border-brand-blue">
+          Our Services
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Strip -->
+  <section class="bg-brand-blue text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-blue-400/30">
+        <div class="p-4">
+          <Icon name="mdi:finance" class="size-10 mx-auto mb-4 text-brand-gold" />
+          <h3 class="text-xl font-bold mb-2 text-white">0% Interest Finance</h3>
+          <p class="text-blue-100/80 text-sm">Easy payment plans available for your treatment.</p>
+        </div>
+        <div class="p-4">
+          <Icon name="mdi:shield-check" class="size-10 mx-auto mb-4 text-brand-gold" />
+          <h3 class="text-xl font-bold mb-2 text-white">Most Insurance Accepted</h3>
+          <p class="text-blue-100/80 text-sm">We accept PPO and Medi-Cal coverage.</p>
+        </div>
+        <div class="p-4">
+          <Icon name="mdi:tooth-outline" class="size-10 mx-auto mb-4 text-brand-gold" />
+          <h3 class="text-xl font-bold mb-2 text-white">Comprehensive Care</h3>
+          <p class="text-blue-100/80 text-sm">Implants, Braces, Cosmetic & Oral Surgery.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Intro Text (Temporary Placeholder for Full Content) -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4 max-w-3xl text-center">
+      <span class="text-brand-gold font-bold uppercase tracking-wider text-sm mb-2 block">Welcome</span>
+      <h2 class="text-4xl font-bold text-slate-900 mb-8">Your Smile, Our Passion</h2>
+      <p class="text-slate-600 leading-loose text-lg">
+        At Liberty Smile Center, we believe that a healthy smile is the foundation of a happy life. 
+        Our team of experienced professionals uses the latest technology to ensure you receive the best care possible.
+        Whether you need a routine check-up or a complex procedure, we are here to help you achieve the smile of your dreams.
+      </p>
+    </div>
+  </section>
+</Layout>
