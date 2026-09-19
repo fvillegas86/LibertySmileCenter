@@ -1,0 +1,54 @@
+---
+import { locationSlugs, getLocationBySlug } from '../data/locations';
+import { getLangFromUrl, getRelativeLocaleUrl } from '../i18n/utils';
+import { useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const pathname = Astro.url.pathname;
+const cleanPath = pathname.replace(/\.html$/, '').replace(/\/$/, '');
+
+// Check if we're on contact page (hide actionbar)
+const isContactPage = cleanPath === '/contact' || cleanPath === '/es/contact';
+
+// Check if we're on a location page
+const currentLocationSlug = locationSlugs.find(slug =>
+  cleanPath.includes(`/${slug}/`) ||
+  cleanPath === `/${slug}` ||
+  cleanPath === `/${lang}/${slug}` ||
+  cleanPath.includes(`/${lang}/${slug}/`)
+);
+
+// Get location phone if on location page
+const location = currentLocationSlug ? getLocationBySlug(currentLocationSlug) : undefined;
+const phone = location?.phone || '(833) 496-0005';
+
+// Check if on general page (home, services, about, etc.)
+const isGeneralPage = !currentLocationSlug;
+const bookUrl = currentLocationSlug
+  ? getRelativeLocaleUrl(lang, `${currentLocationSlug}/appointment`)
+  : getRelativeLocaleUrl(lang, 'appointment');
+---
+
+{!isContactPage && (
+  <>
+    <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200 p-3 md:hidden z-50 flex gap-3 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]">
+      {isGeneralPage ? (
+        <a href={bookUrl} class="w-full flex items-center justify-center gap-2 bg-brand-blue text-white font-bold py-3 rounded-full hover:bg-brand-gold transition-colors shadow-lg">
+          <span aria-hidden="true">📅</span> {t('mobile_action.book')}
+        </a>
+      ) : (
+        <>
+          <a href={`tel:${phone.replace(/[^0-9]/g, '')}`} class="flex-1 flex items-center justify-center gap-2 bg-brand-blue text-white font-bold py-3 rounded-full hover:bg-brand-gold transition-colors shadow-lg">
+            <span aria-hidden="true">📞</span> {t('mobile_action.call')}
+          </a>
+          <a href={bookUrl} class="flex-1 flex items-center justify-center gap-2 bg-brand-blue text-white font-bold py-3 rounded-full hover:bg-brand-gold transition-colors shadow-lg">
+            <span aria-hidden="true">📅</span> {t('mobile_action.book')}
+          </a>
+        </>
+      )}
+    </div>
+    {/* Spacer to prevent content from being hidden behind the bar */}
+    <div class="h-24 md:hidden"></div>
+  </>
+)}

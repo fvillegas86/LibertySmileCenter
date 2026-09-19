@@ -1,0 +1,85 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CallToAction from '../components/CallToAction.astro';
+import CurrentPromotions from '../components/CurrentPromotions.astro';
+import { services, type ServiceData } from '../data/services';
+
+export async function getStaticPaths() {
+  return services.map((svc) => ({
+    params: { service: svc.slug },
+    props: { serviceData: svc }
+  }));
+}
+
+const { serviceData }: { serviceData: ServiceData } = Astro.props;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "MedicalBusiness",
+  "name": `Liberty Smile Center - ${serviceData.name}`,
+  "description": serviceData.description,
+  "url": `https://libertysmilecenter.com/${serviceData.slug}`,
+  "image": `https://libertysmilecenter.com${serviceData.image}`,
+  "priceRange": "$$"
+};
+---
+
+<Layout title={`${serviceData.name} - Liberty Smile Center`} description={serviceData.description} jsonLd={schema}>
+  <Header />
+
+  <main id="main-content">
+    <section class="relative py-24 lg:py-32 flex items-center justify-center overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-black/50 z-10"></div>
+        <img
+          src={serviceData.image}
+          alt={serviceData.name}
+          width="1600"
+          height="900"
+          loading="eager"
+          decoding="async"
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <div class="container mx-auto px-4 relative z-20 text-center text-white">
+        <div class="max-w-3xl mx-auto">
+          <h1 class="text-4xl md:text-5xl font-bold mb-6">{serviceData.heroTitle}</h1>
+          <p class="text-xl md:text-2xl text-gray-100 mb-4">{serviceData.heroSubtitle}</p>
+          <p class="text-lg text-gray-200 mb-8">Serving South Gate, Van Nuys, Whittier, La Habra & Downey</p>
+          <a href="/appointment" class="inline-block bg-brand-gold text-slate-900 font-bold py-3 px-8 rounded-full hover:bg-yellow-500 transition-colors shadow-lg">
+            {serviceData.heroCta}
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-12 md:py-20">
+      <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-2 gap-12">
+          <div class="prose lg:prose-xl">
+            <h3>{serviceData.whatIsTitle}</h3>
+            <p>{serviceData.whatIsDescription}</p>
+
+            <h3>Our Services Include:</h3>
+            <ul>
+              {serviceData.services.map((svc) => (
+                <li><strong>{svc.title}:</strong> {svc.description}</li>
+              ))}
+            </ul>
+          </div>
+          <div class="flex flex-col h-full">
+            <img src={serviceData.image} alt={serviceData.name} width="800" height="600" loading="lazy" decoding="async" class="rounded-xl shadow-lg w-3/4 mb-8 md:mb-6 object-cover flex-1 min-h-[300px] self-center">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <CurrentPromotions />
+
+    <CallToAction />
+  </main>
+
+  <Footer />
+</Layout>

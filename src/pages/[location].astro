@@ -1,0 +1,300 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import CallToAction from '../components/CallToAction.astro';
+import Reviews from '../components/Reviews.astro';
+import InsuranceBanner from '../components/InsuranceBanner.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import { locations, locationSlugs, type LocationData } from '../data/locations';
+import { services } from '../data/services';
+import { getLangFromUrl, useTranslations, getRelativeLocaleUrl } from '../i18n/utils';
+import { Icon } from 'astro-icon/components';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+export async function getStaticPaths() {
+  return locations.map((loc) => ({
+    params: { location: loc.slug },
+    props: { locationData: loc }
+  }));
+}
+
+const { locationData }: { locationData: LocationData } = Astro.props;
+const locationSlug = locationData.slug;
+
+const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+  `${locationData.streetAddress}, ${locationData.city}, ${locationData.state} ${locationData.postalCode}`
+)}`;
+const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  `Liberty Smile Center ${locationData.streetAddress}, ${locationData.city}, ${locationData.state} ${locationData.postalCode}`
+)}`;
+
+const to24Hour = (value: string) => {
+  const match = value.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!match) return value;
+  const hour = Number(match[1]) % 12 + (match[3].toUpperCase() === 'PM' ? 12 : 0);
+  return `${String(hour).padStart(2, '0')}:${match[2]}`;
+};
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Dentist",
+  "name": `Liberty Smile Center - ${locationData.name}`,
+  "image": "https://libertysmilecenter.com/images/dental/main-office.webp",
+  "description": locationData.description,
+  "url": `https://libertysmilecenter.com/${locationData.slug}`,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": locationData.streetAddress,
+    "addressLocality": locationData.city,
+    "addressRegion": locationData.state,
+    "postalCode": locationData.postalCode,
+    "addressCountry": "US"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": locationData.geo.latitude,
+    "longitude": locationData.geo.longitude
+  },
+  "telephone": `+1${locationData.phone}`,
+  "openingHoursSpecification": locationData.hours
+    .filter((h) => h.time.toLowerCase() !== 'closed')
+    .map((h) => ({
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": h.day,
+      "opens": to24Hour(h.time.split('–')[0]),
+      "closes": to24Hour(h.time.split('–')[1]),
+    })),
+  "priceRange": "$$",
+  "areaServed": locationData.areaServed
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": locationData.faqs.map((faq) => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": { "@type": "Answer", "text": faq.answer }
+  }))
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://libertysmilecenter.com" },
+    { "@type": "ListItem", "position": 2, "name": "Locations", "item": "https://libertysmilecenter.com/#locations" },
+    { "@type": "ListItem", "position": 3, "name": locationData.name, "item": `https://libertysmilecenter.com/${locationData.slug}` }
+  ]
+};
+
+const pageServices = services.map((svc) => ({
+  title: svc.name,
+  description: svc.description,
+  icon: svc.icon,
+  image: svc.image,
+  href: getRelativeLocaleUrl(lang, `${locationSlug}/${svc.slug}`)
+}));
+---
+
+<Layout title={locationData.title} description={locationData.description} jsonLd={[schema, faqSchema, breadcrumbSchema]}>
+  <Header />
+
+  <main id="main-content">
+    <Hero />
+
+    <!-- Trust Bar -->
+    <div class="bg-brand-blue text-white py-3 md:py-4">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-2 text-center">
+          <div class="flex items-center gap-1 text-yellow-400">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          </div>
+          <p class="text-sm md:text-base font-medium">
+            Trusted by Families Across {locationData.name}, CA
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Location Info Section -->
+    <section class="py-12 md:py-20 bg-brand-blue text-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h2 class="text-3xl md:text-4xl font-bold mb-6">{t('location.serving')} {locationData.name} and Surrounding Areas</h2>
+          <p class="text-xl mb-8 text-white/90">
+            {t('location.serving_subtitle')} {locationData.name}, {t('location.serving_areas')}
+          </p>
+          <div class="flex flex-wrap justify-center gap-3 mb-8">
+            {locationData.areaServed.map((area) => (
+              <span class="bg-white/20 px-4 py-2 rounded-full text-sm font-medium">{area}</span>
+            ))}
+          </div>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href={`tel:${locationData.phone}`} class="bg-white border-2 border-white text-brand-blue px-8 py-3 rounded-full font-bold hover:bg-white/10 transition-colors">
+              {t('location.call')} {locationData.phoneDisplay}
+            </a>
+            <a href={getRelativeLocaleUrl(lang, `${locationSlug}/appointment`)} class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-full font-bold hover:bg-white/10 transition-colors">
+              Book Online
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Office Info + Map -->
+    <section class="py-12 md:py-20 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="grid lg:grid-cols-2 gap-10">
+          <!-- Info Column -->
+          <div>
+            <span class="text-brand-gold font-bold text-sm uppercase tracking-wider">{t('location.welcome')}</span>
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-6">{t('location.exceptional_care')} {locationData.name}</h2>
+            <p class="text-slate-600 mb-6 leading-relaxed">{t('location.intro_p1')}</p>
+            <p class="text-slate-600 mb-8 leading-relaxed">{t('location.intro_p2')}</p>
+
+            <!-- NAP block -->
+            <div class="space-y-4 text-lg mb-8">
+              <address class="flex items-start gap-3 not-italic">
+                <Icon name="mdi:map-marker" class="size-6 text-brand-blue shrink-0 mt-1" />
+                <span>
+                  {locationData.streetAddress}<br />
+                  {locationData.city}, {locationData.state} {locationData.postalCode}
+                </span>
+              </address>
+              <div class="flex items-center gap-3">
+                <Icon name="mdi:phone" class="size-6 text-brand-blue shrink-0" />
+                <a href={`tel:${locationData.phone}`} class="hover:underline font-semibold">{locationData.phoneDisplay}</a>
+              </div>
+              <div class="flex items-center gap-3">
+                <Icon name="mdi:directions" class="size-6 text-brand-blue shrink-0" />
+                <a href={directionsUrl} target="_blank" rel="noopener" class="hover:underline font-semibold text-brand-blue">{t('location.get_directions')}</a>
+              </div>
+            </div>
+
+            <!-- Hours -->
+            <div class="mb-8">
+              <h3 class="font-bold text-lg mb-3 text-slate-900 flex items-center gap-2">
+                <Icon name="mdi:clock-outline" class="size-5 text-brand-blue" />
+                {t('location.office_hours')}
+              </h3>
+              <table class="w-full text-sm">
+                <tbody>
+                  {locationData.hours.map((h) => (
+                    <tr class="border-b border-slate-100 last:border-0">
+                      <td class="py-2 font-semibold text-slate-700 w-32">{h.day}</td>
+                      <td class="py-2 text-slate-600">{h.time}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Areas Served -->
+            <div>
+              <h3 class="font-bold text-lg mb-3 text-slate-900 flex items-center gap-2">
+                <Icon name="mdi:map-search" class="size-5 text-brand-blue" />
+                {t('location.areas_served')}
+              </h3>
+              <div class="flex flex-wrap gap-2">
+                {locationData.areaServed.map((area) => (
+                  <span class="px-3 py-1 bg-blue-50 text-brand-blue text-sm font-medium rounded-full">{area}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <!-- Map Column -->
+          <div class="lg:sticky lg:top-24 self-start">
+            <div class="h-80 lg:h-[500px] bg-slate-200 rounded-2xl overflow-hidden shadow-lg">
+              <iframe
+                src={locationData.mapUrl}
+                title={`Map of Liberty Smile Center ${locationData.name}`}
+                width="100%"
+                height="100%"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+              </iframe>
+            </div>
+            <a href={mapsUrl} target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-1 text-sm text-brand-blue font-semibold hover:underline">
+              <Icon name="mdi:google-maps" class="size-4" />
+              {t('location.view_on_maps')}
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section class="py-12 md:py-20 bg-slate-50">
+      <div class="container mx-auto px-4">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{t('location.our_services')}</h2>
+          <p class="text-slate-600">{t('location.services_subtitle')}</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center max-w-5xl mx-auto">
+          {pageServices.map((service) => (
+            <ServiceCard {...service} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <Reviews location={locationSlug as 'south-gate' | 'van-nuys' | 'whittier' | 'la-habra' | 'downey'} />
+
+    <InsuranceBanner />
+
+    <!-- FAQ -->
+    <section class="py-12 md:py-16 bg-white">
+      <div class="container mx-auto px-4 max-w-3xl">
+        <h2 class="text-2xl md:text-3xl font-bold mb-8 text-center text-slate-900">
+          {locationData.name} {t('location.faq_title')}
+        </h2>
+        <div class="space-y-4">
+          {locationData.faqs.map((faq) => (
+            <details class="group bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+              <summary class="flex items-center justify-between cursor-pointer p-5 font-semibold text-slate-800 list-none">
+                <span>{faq.question}</span>
+                <Icon name="mdi:chevron-down" class="size-5 text-brand-blue shrink-0 transition-transform group-open:rotate-180" />
+              </summary>
+              <div class="px-5 pb-5 text-slate-600 leading-relaxed">{faq.answer}</div>
+            </details>
+          ))}
+        </div>
+        <div class="text-center mt-8">
+          <p class="text-slate-600 mb-4">{t('location.faq_still_questions')}</p>
+          <a href={`tel:${locationData.phone}`} class="inline-flex items-center gap-2 px-8 py-4 bg-brand-gold text-slate-900 font-bold rounded-full shadow-lg hover:bg-yellow-500 transition-colors">
+            <Icon name="mdi:phone" class="size-5" />
+            {t('location.call')} {locationData.name}: {locationData.phoneDisplay}
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Other Locations -->
+    <section class="py-12 bg-slate-50">
+      <div class="container mx-auto px-4">
+        <h2 class="text-2xl font-bold mb-8 text-center text-slate-900">{t('location.other_locations')}</h2>
+        <div class="flex flex-wrap justify-center gap-4">
+          {locations.filter((l) => l.slug !== locationSlug).map((l) => (
+            <a href={getRelativeLocaleUrl(lang, l.slug)} class="block p-6 bg-white shadow-md rounded-xl hover:shadow-lg transition-all border border-slate-100 min-w-48">
+              <h3 class="text-lg font-bold text-brand-blue mb-1">{l.name}</h3>
+              <p class="text-sm text-slate-600">{l.streetAddress}</p>
+              <p class="text-sm text-brand-blue font-semibold mt-2">{l.phoneDisplay}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <CallToAction locationData={locationData} />
+  </main>
+
+  <Footer locationData={locationData} />
+</Layout>

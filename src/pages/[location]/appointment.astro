@@ -1,0 +1,108 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import AppointmentForm from '../../components/AppointmentForm.astro';
+import { locations, type LocationData } from '../../data/locations';
+
+export async function getStaticPaths() {
+  return locations.map((loc) => ({
+    params: { location: loc.slug },
+    props: { locationData: loc }
+  }));
+}
+
+const { locationData }: { locationData: LocationData } = Astro.props;
+const locationSlug = Astro.params.location;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Dentist",
+  "name": `Liberty Smile Center - ${locationData.name}`,
+  "description": `Make an appointment at our ${locationData.name} office.`,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": locationData.streetAddress,
+    "addressLocality": locationData.city,
+    "addressRegion": locationData.state,
+    "postalCode": locationData.postalCode,
+    "addressCountry": "US"
+  },
+  "telephone": `+1${locationData.phone}`,
+  "openingHoursSpecification": locationData.hours
+    .filter((h) => h.time.toLowerCase() !== 'closed')
+    .map((h) => ({
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": h.day,
+      "opens": h.time.split('–')[0]?.trim().replace(/ /g, ''),
+      "closes": h.time.split('–')[1]?.trim().replace(/ /g, ''),
+    }))
+};
+---
+
+<Layout title={`Make an Appointment - Liberty Smile Center | ${locationData.name}, CA`} description={`Book your dental appointment at our ${locationData.name} office. Call ${locationData.phoneDisplay} or schedule online.`} jsonLd={schema}>
+  <Header />
+
+  <main id="main-content">
+    <section class="bg-brand-blue py-8 md:py-16 text-white">
+      <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl font-bold">Schedule Your Visit in {locationData.name}</h1>
+      </div>
+    </section>
+
+    <section class="py-6 md:py-20">
+      <div class="container mx-auto px-4">
+        <div class="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+
+          <!-- Booking Form -->
+          <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+              <span class="text-3xl" aria-hidden="true">📅</span> Request an Appointment
+            </h2>
+            <AppointmentForm locationSlug={locationSlug} />
+          </div>
+
+          <!-- Info & Hours -->
+          <div>
+            <div class="bg-slate-900 text-white p-8 rounded-2xl shadow-lg mb-8">
+              <h3 class="text-2xl font-bold mb-6">{locationData.name} Office</h3>
+              <div class="space-y-4">
+                <div>
+                  <h4 class="font-bold text-lg mb-2">{locationData.name}</h4>
+                  <p class="text-gray-300 text-sm mb-3">{locationData.streetAddress}<br/>{locationData.city}, {locationData.state} {locationData.postalCode}</p>
+                  <a href={`tel:${locationData.phone}`} class="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium">
+                    📞 Call {locationData.phoneDisplay}
+                  </a>
+                </div>
+              </div>
+              <div class="mt-6 pt-6 border-t border-white/20">
+                <p class="text-sm text-gray-300">
+                  ✉️ <a href="mailto:info@libertysmilecenter.com" class="text-gray-300 hover:text-white transition-colors">info@libertysmilecenter.com</a>
+                </p>
+              </div>
+            </div>
+
+            <!-- Business Hours -->
+            <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-100">
+              <div class="flex items-center gap-3 mb-6">
+                <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center text-brand-blue text-2xl">🕒</div>
+                <h3 class="text-2xl font-bold text-slate-900">Business Hours</h3>
+              </div>
+              <div class="space-y-4">
+                {locationData.hours.map((item) => (
+                  <div class="flex justify-between items-center py-3 border-b border-slate-100 last:border-0 hover:bg-slate-50 px-2 rounded transition-colors">
+                    <span class="font-bold text-slate-700">{item.day}</span>
+                    <span class={`font-medium ${item.time === 'Closed' ? 'text-red-500' : 'text-slate-600'}`}>{item.time}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer locationData={locationData} />
+</Layout>

@@ -1,46 +1,107 @@
 ---
-import { Icon } from 'astro-icon/components';
+import { getLangFromUrl, useTranslations, getRelativeLocaleUrl } from '../i18n/utils';
+import { locations, locationSlugs } from '../data/locations';
+import { serviceSlugs } from '../data/services';
 
-const navItems = [
-  { name: 'Home', href: '/' },
-  { name: 'Our Services', href: '/#services' },
-  { name: 'About Us', href: '/about' },
-  { name: 'Locations', href: '/locations' },
-  { name: 'Contact', href: '/contact' },
-];
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Map location slugs to i18n keys
+const locationI18nKeys: Record<string, string> = {
+  'south-gate': 'nav.location.south_gate',
+  'van-nuys': 'nav.location.van_nuys',
+  'whittier': 'nav.location.whittier',
+  'la-habra': 'nav.location.la_habra',
+  'downey': 'nav.location.downey',
+};
+
+// Map service slugs to i18n keys
+const serviceI18nKeys: Record<string, string> = {
+  'general-dentistry': 'nav.service.general_dentistry',
+  'dental-implants': 'nav.service.dental_implants',
+  'orthodontics': 'nav.service.orthodontics',
+  'cosmetic': 'nav.service.cosmetic',
+  'oral-surgery': 'nav.service.oral_surgery',
+};
+
+// Detect if current page is a location page
+const pathname = Astro.url.pathname;
+const currentLocationSlug = locationSlugs.find(slug => pathname.includes(`/${slug}/`) || pathname === `/${slug}` || pathname === `/${lang}/${slug}`);
+
+// Build location links
+const locationLinks = locations.map(loc => ({
+  text: t(locationI18nKeys[loc.slug] as any),
+  href: getRelativeLocaleUrl(lang, loc.slug),
+}));
+
+// Generate service links based on context (location-specific if on a location page)
+const serviceLinks = serviceSlugs.map(slug => ({
+  text: t(serviceI18nKeys[slug] as any),
+  href: currentLocationSlug
+    ? getRelativeLocaleUrl(lang, `${currentLocationSlug}/${slug}`)
+    : getRelativeLocaleUrl(lang, slug),
+}));
+
+const homeUrl = getRelativeLocaleUrl(lang, '/');
+const appointmentUrl = getRelativeLocaleUrl(lang, currentLocationSlug ? `${currentLocationSlug}/appointment` : 'appointment');
+
 ---
 
-<header class="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100">
-  <div class="container mx-auto px-4 h-20 flex items-center justify-between">
-    <!-- Logo -->
-    <a href="/" class="flex items-center gap-2">
-      <!-- Placeholder Logo until we have the asset locally, utilizing text for now if image fails -->
-      <img src="https://libertysmilecenter.com/wp-content/uploads/2018/01/Liberty-Smile-Center-Logo.png" alt="Liberty Smile Center" class="h-12 w-auto object-contain" />
-    </a>
-
-    <!-- Desktop Nav -->
-    <nav class="hidden md:flex items-center gap-8">
-      {navItems.map(item => (
-        <a href={item.href} class="text-sm font-medium text-slate-600 hover:text-brand-blue transition-colors">
-          {item.name}
-        </a>
-      ))}
+<header class="site-header">
+  <div class="container mx-auto header-inner">
+    <a href={homeUrl} class="wordmark" aria-label="Liberty Smile Center home"><img src="/images/logo_liberty_smile_center.webp" alt="Liberty Smile Center — The art of dentistry" width="498" height="300" loading="eager" class="site-logo" /></a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a href="/about">{lang === 'es' ? 'Nosotros' : 'Our practice'}</a>
+      <details class="nav-dropdown"><summary>{t('nav.services')}</summary><div>{serviceLinks.map(link => <a href={link.href}>{link.text}</a>)}<a href="/services">{lang === 'es' ? 'Todos los servicios' : 'Explore all services'} ↗</a></div></details>
+      <details class="nav-dropdown"><summary>{t('nav.locations')}</summary><div>{locationLinks.map(link => <a href={link.href}>{link.text}</a>)}</div></details>
+      <a href="/specials">{t('nav.specials')}</a>
+      <a href="/blog">{t('nav.blog')}</a>
+      <a href="/contact">{t('nav.contact')}</a>
     </nav>
-
-    <!-- CTA -->
-    <div class="hidden md:flex items-center gap-4">
-      <a href="tel:8334960005" class="flex items-center gap-2 text-brand-blue font-semibold text-sm hover:text-brand-gold transition-colors">
-        <Icon name="mdi:phone" class="size-5" />
-        (833) 496-0005
-      </a>
-      <a href="/contact" class="px-5 py-2.5 bg-brand-blue text-white text-sm font-bold rounded-full shadow-lg hover:bg-blue-700 transition-transform active:scale-95">
-        Book Appointment
-      </a>
-    </div>
-
-    <!-- Mobile Menu Button (Placeholder for interactivity) -->
-    <button class="md:hidden p-2 text-slate-600">
-      <Icon name="mdi:menu" class="size-7" />
-    </button>
+    <div class="header-actions"><a class="language-link" href={lang === 'es' ? '/' : '/es/'}>{lang === 'es' ? 'EN' : 'ES'}</a><a class="button-primary header-book" href={appointmentUrl}>{t('nav.appointment')} <span aria-hidden="true">↗</span></a><button id="mobile-menu-btn" aria-label="Open navigation" aria-controls="mobile-menu" aria-expanded="false">☰</button></div>
   </div>
+  <nav id="mobile-menu" hidden aria-label="Mobile navigation">
+    <a href={homeUrl}>{t('nav.home')}</a><a href="/about">{lang === 'es' ? 'Nosotros' : 'Our practice'}</a>
+    <details><summary>{t('nav.locations')}</summary>{locationLinks.map(link => <a href={link.href}>{link.text}</a>)}</details>
+    <details><summary>{t('nav.services')}</summary>{serviceLinks.map(link => <a href={link.href}>{link.text}</a>)}<a href="/services">All services</a></details>
+    <a href="/specials">{t('nav.specials')}</a><a href="/blog">{t('nav.blog')}</a><a href="/contact">{t('nav.contact')}</a><a href={appointmentUrl}>{t('nav.appointment')}</a>
+  </nav>
 </header>
+<script>
+  const button = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  function closeMenu() { if (menu && button) { menu.hidden = true; button.setAttribute('aria-expanded', 'false'); button.setAttribute('aria-label', 'Open navigation'); } }
+  button?.addEventListener('click', () => { if (menu) { menu.hidden = !menu.hidden; button.setAttribute('aria-expanded', String(!menu.hidden)); button.setAttribute('aria-label', menu.hidden ? 'Open navigation' : 'Close navigation'); } });
+  const dropdowns = Array.from(document.querySelectorAll<HTMLDetailsElement>('.nav-dropdown'));
+  dropdowns.forEach(detail => detail.addEventListener('toggle', () => { if (detail.open) dropdowns.forEach(other => { if (other !== detail) other.open = false; }); }));
+  document.addEventListener('click', event => { dropdowns.forEach(detail => { if (!detail.contains(event.target as Node)) detail.open = false; }); });
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') { dropdowns.forEach(detail => { if (detail.open) { detail.open = false; detail.querySelector('summary')?.focus(); } }); if (menu && !menu.hidden) { closeMenu(); button?.focus(); } } });
+  window.matchMedia('(min-width: 1100px)').addEventListener('change', event => { if (event.matches) closeMenu(); });
+</script>
+<style>
+.utility-bar { display:flex; justify-content:space-between; gap:20px; padding:10px max(24px, calc((100vw - 1144px)/2)); background:#365fb0; color:#eef2e9; font-size:10px; letter-spacing:.04em; }
+.utility-bar a { text-decoration:underline; text-underline-offset:3px; }
+.site-header { position:sticky; top:0; z-index:50; background:#fffffff5; backdrop-filter:blur(12px); border-bottom:1px solid #e6ebf2; }
+.header-inner { display:flex; justify-content:space-between; align-items:center; gap:24px; min-height:108px; }
+.wordmark { display:flex; align-items:center; flex-shrink:0; padding-block:8px; }
+.site-logo { display:block; width:180px; height:auto; }
+.desktop-nav,.header-actions { display:flex; align-items:center; gap:23px; }
+.desktop-nav { font-size:11px; color:#24344e; text-transform:uppercase; letter-spacing:.06em; }
+.desktop-nav > a,summary { padding:18px 0; cursor:pointer; }
+.nav-dropdown { position:relative; }
+.nav-dropdown summary { list-style:none; }
+.nav-dropdown summary::-webkit-details-marker { display:none; }
+.nav-dropdown summary::after { content:'⌄'; margin-left:6px; }
+.nav-dropdown > div { position:absolute; top:100%; left:-20px; min-width:220px; padding:10px; border:1px solid #e3eaf3; background:#ffffff; box-shadow:0 16px 30px #173f3b14; }
+.nav-dropdown a { display:block; padding:12px; border-radius:3px; }
+.nav-dropdown a:hover { background:#edf4fb; }
+.language-link { font-size:11px; text-decoration:underline; text-underline-offset:4px; }
+.header-book { font-size:12px; padding:12px 18px; min-height:46px; }
+#mobile-menu-btn { display:none; padding:10px; min-width:44px; min-height:44px; color:#365fb0; font-size:25px; }
+#mobile-menu { padding:12px 24px 30px; max-height:calc(100dvh - 130px); overflow-y:auto; background:#ffffff; }
+#mobile-menu a,#mobile-menu summary { display:block; padding:14px 0; border-bottom:1px solid #e3eaf3; font-size:15px; }
+#mobile-menu details a { padding-left:20px; }
+@media(max-width:1099px) { .desktop-nav { display:none; } #mobile-menu-btn { display:block; } .header-inner { min-height:80px; } }
+@media(min-width:1100px) { #mobile-menu { display:none; } }
+@media(max-width:600px) { .utility-bar { justify-content:center; } .utility-bar > span:first-child { display:none; } .header-book { display:none; } .site-logo { width:140px; } .header-actions { gap:15px; } }
+</style>

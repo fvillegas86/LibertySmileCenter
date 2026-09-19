@@ -1,0 +1,26 @@
+---
+import { services, servicesES } from '../data/services';
+import { getLangFromUrl } from '../i18n/utils';
+const es = getLangFromUrl(Astro.url) === 'es';
+const items = (es ? servicesES : services);
+const order = ['cosmetic', 'dental-implants', 'orthodontics', 'general-dentistry', 'oral-surgery'];
+const sorted = order.map(slug => items.find(item => item.slug === slug)!);
+---
+<section class="service-features" aria-label={es ? 'Nuestros servicios dentales' : 'Our dental services'}>
+  {sorted.map((service, index) => <article class:list={['feature-row', { reverse: index % 2 === 1 }]}>
+    <div class="feature-image"><img src={service.image} alt={service.name} width="900" height="700" loading="lazy" decoding="async" /></div>
+    <div class="feature-copy"><span class="eyebrow">{es ? 'CUIDAMOS TU SONRISA' : 'PERSONALIZED CARE. MORE REASONS TO SMILE.'}</span><h2>{service.name}</h2><p>{service.description}</p><p>{service.whatIsDescription}</p><a href={`/${service.slug}`} class="read-more">{es ? 'Más información' : 'Explore treatment options'} →</a><a href="/appointment" class="button-primary">{es ? 'Hacer cita' : 'Book appointment'}</a></div>
+  </article>)}
+</section>
+<style>
+.feature-row { display:grid; grid-template-columns:1fr 1fr; min-height:490px; }
+.feature-image { overflow:hidden; background:#e6eef6; }
+.feature-image img { width:100%; height:100%; min-height:490px; object-fit:cover; }
+.feature-copy { padding:clamp(35px,5vw,85px); background:#f2f6fb; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; }
+.feature-row.reverse .feature-image { order:2; }
+.feature-row.reverse .feature-copy { background:white; }
+h2 { font-size:clamp(1.8rem,3vw,2.7rem); line-height:1.2; margin-bottom:20px; }
+p { color:#526079; font-size:14px; line-height:1.85; margin-bottom:15px; }
+.read-more { color:#365fb0; font-weight:600; font-size:13px; margin:5px 0 24px; }
+@media(max-width:700px) { .feature-row { grid-template-columns:1fr; } .feature-row.reverse .feature-image { order:0; } .feature-image img { min-height:0; height:280px; } .feature-copy { padding:35px 24px 45px; } }
+</style>

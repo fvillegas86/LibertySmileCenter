@@ -1,0 +1,67 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const services = [
+  {
+    key: 'nav.service.general_dentistry',
+    icon: '🦷'
+  },
+  {
+    key: 'nav.service.dental_implants',
+    icon: '⚙️'
+  },
+  {
+    key: 'nav.service.orthodontics',
+    icon: '✨'
+  },
+  {
+    key: 'nav.service.cosmetic',
+    icon: '💎'
+  },
+  {
+    key: 'nav.service.oral_surgery',
+    icon: '🔬'
+  },
+  {
+    // Emergency Dentistry — no dedicated ui key, use inline bilingual label
+    key: 'emergency',
+    icon: '🚨'
+  }
+];
+---
+
+<section class="py-16 md:py-24 bg-gradient-to-b from-blue-50 to-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center max-w-3xl mx-auto mb-14">
+      <span class="inline-block text-brand-blue font-bold text-sm uppercase tracking-wider mb-2">
+        {lang === 'es' ? 'Lo Que Ofrecemos' : 'What We Offer'}
+      </span>
+      <h2 class="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-secondary mb-4">
+        {lang === 'es' ? 'Nuestros Servicios Dentales' : 'Our Dental Services'}
+      </h2>
+      <p class="text-lg md:text-xl text-gray-600">
+        {lang === 'es'
+          ? 'Atención dental completa para toda la familia, todo en un solo lugar.'
+          : 'Complete dental care for the whole family, all under one roof.'}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 max-w-6xl mx-auto">
+      {services.map((service) => (
+        <div class="group bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100 hover:shadow-xl hover:border-brand-blue/20 transition-all duration-300 hover:-translate-y-1">
+          <div class="w-14 h-14 md:w-16 md:h-16 mx-auto mb-4 bg-brand-blue/10 rounded-2xl flex items-center justify-center group-hover:bg-brand-gold/15 transition-colors duration-300 text-secondary group-hover:text-brand-blue text-2xl md:text-3xl">
+            {service.icon}
+          </div>
+          <h3 class="text-sm md:text-base font-bold text-secondary mb-2 leading-tight">
+            {service.key === 'emergency'
+              ? (lang === 'es' ? 'Emergencias' : 'Emergency')
+              : t(service.key as any)}
+          </h3>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://libertysmilecenter.com/sitemap.xml

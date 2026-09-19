@@ -1,0 +1,58 @@
+---
+import { getLangFromUrl } from '../i18n/utils';
+
+interface Props {
+  title: string;
+  description: string;
+  icon?: string;
+  image?: string;
+  href: string;
+}
+
+const { title, description, icon, image, href } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const learnMoreText = lang === 'es' ? 'Más Información →' : 'Learn More →';
+---
+
+<a href={href} class="group block bg-white rounded-2xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] transition-all duration-300 border border-gray-100/50 hover:border-brand-blue/20 hover:-translate-y-1 overflow-hidden">
+  {image ? (
+    <div class="relative h-48 overflow-hidden">
+      <img
+        src={image}
+        alt={title}
+        width="400"
+        height="192"
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  ) : (
+    <div class="p-8">
+      <div class="w-16 h-16 bg-brand-blue/10 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition-transform duration-300">
+        {icon}
+      </div>
+    </div>
+  )}
+
+  <div class={image ? 'p-6' : 'px-8 pb-8'}>
+    <h3 class="text-xl font-bold text-secondary mb-3 group-hover:text-brand-blue transition-colors">
+      {title}
+    </h3>
+
+    <p class="text-gray-600 leading-relaxed">
+      {description}
+    </p>
+
+    <span class="inline-block mt-6 text-brand-blue font-medium group-hover:translate-x-1 transition-transform">
+      {learnMoreText}
+    </span>
+  </div>
+</a>
+
+<style>
+a { border-radius:8px; box-shadow:none; border:1px solid #dce5f0; background:#ffffff; height:100%; }
+h3 { font:700 23px/1.2 var(--font-sans); }
+p { font-size:14px; }
+a > div:first-child:has(img) { height:220px; }
+</style>

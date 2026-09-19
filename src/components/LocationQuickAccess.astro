@@ -1,0 +1,47 @@
+---
+import { locations } from '../data/locations';
+import { getLangFromUrl } from '../i18n/utils';
+interface Props { selectedSlug?: string; }
+const { selectedSlug = locations[0].slug } = Astro.props;
+const es = getLangFromUrl(Astro.url) === 'es';
+---
+<section class="office-access" aria-label={es ? 'Elige tu consultorio' : 'Choose your dental office'} data-office-access data-selected={selectedSlug}>
+  <div class="container mx-auto">
+    <div class="office-tabs" role="group" aria-label={es ? 'Ubicaciones' : 'Office locations'}>
+      {locations.map(loc => <button type="button" data-office={loc.slug} aria-pressed={loc.slug === selectedSlug} aria-controls={`office-${loc.slug}`}>{loc.name}</button>)}
+    </div>
+    {locations.map(loc => <div class="office-panel" id={`office-${loc.slug}`} data-panel={loc.slug}>
+      <div><span class="office-icon" aria-hidden="true">☎</span><div><a href={`tel:${loc.phone}`}>{loc.phoneDisplay}</a><p>{es ? 'Llama a' : 'Call our'} {loc.name} {es ? '' : 'office'}</p></div></div>
+      <div><span class="office-icon" aria-hidden="true">▦</span><div><a href={`/${loc.slug}/appointment`}>{es ? 'Hacer cita' : 'Book an appointment'}</a><p>{es ? 'Planea tu visita.' : 'Let’s plan your visit.'}</p></div></div>
+      <div><span class="office-icon" aria-hidden="true">⌖</span><div><a href={`/${loc.slug}`}>{loc.streetAddress}</a><p>{loc.city}, {loc.state} {loc.postalCode} <span aria-hidden="true">↗</span></p></div></div>
+    </div>)}
+  </div>
+</section>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-office-access]').forEach(root => {
+    const buttons = root.querySelectorAll<HTMLButtonElement>('[data-office]');
+    const panels = root.querySelectorAll<HTMLElement>('[data-panel]');
+    function select(slug: string) {
+      buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.office === slug)));
+      panels.forEach(panel => { panel.hidden = panel.dataset.panel !== slug; });
+    }
+    select(root.dataset.selected!);
+    buttons.forEach(button => button.addEventListener('click', () => select(button.dataset.office!)));
+  });
+</script>
+<style>
+.office-access { position:relative; background:#203251; color:white; padding:0 0 35px; }
+.office-tabs { display:flex; justify-content:center; position:relative; top:-24px; gap:1px; }
+.office-tabs button { background:#e1edf7; color:#203251; font-size:11px; text-transform:uppercase; letter-spacing:.06em; padding:19px 28px; cursor:pointer; min-height:50px; }
+.office-tabs button:first-child { border-radius:5px 0 0 5px; }
+.office-tabs button:last-child { border-radius:0 5px 5px 0; }
+.office-tabs button[aria-pressed=true] { background:#365fb0; color:white; }
+.office-panel { display:grid; grid-template-columns:1fr 1fr 1.35fr; gap:35px; padding-top:5px; }
+.office-panel[hidden] { display:none; }
+.office-panel > div { display:flex; gap:18px; align-items:center; }
+.office-icon { font-size:35px; color:#b1c9ec; }
+.office-panel a { color:white; font-size:15px; font-weight:600; }
+.office-panel a:hover { text-decoration:underline; }
+.office-panel p { margin-top:5px; font-size:13px; color:#d5dfef; }
+@media(max-width:700px) { .office-tabs { flex-wrap:wrap; gap:5px; top:-20px; } .office-tabs button { flex:1 0 28%; padding:13px 10px; border-radius:4px; font-size:10px; } .office-panel { grid-template-columns:1fr; gap:22px; padding-top:0; } .office-panel > div { gap:15px; } .office-icon { width:32px; } }
+</style>

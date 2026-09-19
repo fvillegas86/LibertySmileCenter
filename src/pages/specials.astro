@@ -1,0 +1,115 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Footer from '../components/Footer.astro';
+import InsuranceBanner from '../components/InsuranceBanner.astro';
+import CurrentPromotions from '../components/CurrentPromotions.astro';
+import CallToAction from '../components/CallToAction.astro';
+import { useTranslations } from '../i18n/utils';
+
+const t = useTranslations('en');
+
+const offersSchema = {
+  "@context": "https://schema.org",
+  "@type": "OfferCatalog",
+  "name": "Liberty Smile Center Specials and Promotions",
+  "itemListElement": [
+    {
+      "@type": "Offer",
+      "name": "New Patient Dental Exam & Consultation",
+      "description": "Comprehensive dental exam and consultation with our experienced dentists",
+      "price": "49",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "seller": { "@type": "LocalBusiness", "name": "Liberty Smile Center" },
+      "category": "Dental Services"
+    },
+    {
+      "@type": "Offer",
+      "name": "New Patient Dental Cleaning",
+      "description": "Professional dental cleaning for new patients",
+      "price": "179",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "seller": { "@type": "LocalBusiness", "name": "Liberty Smile Center" },
+      "category": "Dental Services"
+    },
+    {
+      "@type": "Offer",
+      "name": "Teeth Whitening",
+      "description": "Professional teeth whitening treatment",
+      "price": "380",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "seller": { "@type": "LocalBusiness", "name": "Liberty Smile Center" },
+      "category": "Dental Services"
+    }
+  ]
+};
+---
+
+<Layout title="Specials & Promotions - Liberty Smile Center" description="New patient specials and current promotions at Liberty Smile Center. Save on dental care with our exclusive offers. 0% interest financing." jsonLd={offersSchema}>
+  <Header />
+
+  <main id="main-content">
+    <Hero
+      title={`Special <span class="text-white italic">Offers</span> & Promotions`}
+      subtitle="Take advantage of our new patient specials and current promotions. Save on quality dental care."
+    />
+
+    <!-- New Patient Specials -->
+    <section class="py-12 md:py-20 bg-brand-blue text-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">{t('specials.new_patient_title')}</h2>
+          <p class="text-xl opacity-90">{t('specials.new_patient_subtitle')}</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/20 hover:bg-white/20 transition-all">
+            <div class="text-5xl mb-4" aria-hidden="true">🦷</div>
+            <h3 class="text-2xl font-bold mb-3">{t('specials.free_consultation')}</h3>
+            <p class="text-white/90 mb-4">{t('specials.free_consultation_desc')}</p>
+            <div class="text-3xl font-bold text-yellow-300 mb-4">$49</div>
+            <p class="text-sm text-white/70">{t('specials.new_patients_only')}</p>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/20 hover:bg-white/20 transition-all">
+            <div class="text-5xl mb-4" aria-hidden="true">✨</div>
+            <h3 class="text-2xl font-bold mb-3">{t('specials.dental_cleaning')}</h3>
+            <p class="text-white/90 mb-4">{t('specials.dental_cleaning_desc')}</p>
+            <div class="text-3xl font-bold text-yellow-300 mb-4">$179</div>
+            <p class="text-sm text-white/70">{t('specials.regular_price')} $299. {t('specials.new_patients_only')}</p>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/20 hover:bg-white/20 transition-all">
+            <div class="text-5xl mb-4">📸</div>
+            <h3 class="text-2xl font-bold mb-3">{t('specials.teeth_whitening')}</h3>
+            <p class="text-white/90 mb-4">{t('specials.teeth_whitening_desc')}</p>
+            <div class="text-3xl font-bold text-yellow-300 mb-4">$380</div>
+            <p class="text-sm text-white/70">{t('specials.regular_price')} $450. {t('specials.new_patients_only')}</p>
+          </div>
+        </div>
+
+        <div class="text-center mt-12">
+          <a href="/appointment" class="inline-block bg-white text-brand-blue px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors shadow-lg">
+            {t('specials.book_today')}
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <CurrentPromotions />
+
+    <InsuranceBanner />
+
+    <CallToAction
+      title={t('specials.ready_to_save')}
+      text={t('specials.ready_to_save_subtitle')}
+      btnAppt="Make Appointment"
+    />
+  </main>
+
+  <Footer />
+</Layout>

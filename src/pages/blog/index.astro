@@ -1,0 +1,108 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getCollection, render } from 'astro:content';
+import { getLangFromUrl, useTranslations, getRelativeLocaleUrl } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const blogSchema = {
+	"@context": "https://schema.org",
+	"@type": "Blog",
+	"name": "Liberty Smile Center Blog",
+	"url": "https://libertysmilecenter.com/blog",
+	"description": "Dental health tips and articles from Liberty Smile Center.",
+	"publisher": {
+		"@type": "Dentist",
+		"name": "Liberty Smile Center",
+		"url": "https://libertysmilecenter.com"
+	},
+	"blogPost": posts.map((p) => ({
+		"@type": "BlogPosting",
+		"headline": p.data.title,
+		"url": `https://libertysmilecenter.com/blog/${p.id}`,
+		"datePublished": p.data.pubDate.toISOString(),
+		"description": p.data.description,
+		"author": {
+			"@type": "Organization",
+			"name": p.data.author
+		}
+	}))
+};
+---
+
+<Layout
+	title="Blog - Liberty Smile Center"
+	description="Dental health tips and articles from Liberty Smile Center. Learn about teeth whitening, dental implants, emergency dentistry, and maintaining a healthy smile."
+	jsonLd={blogSchema}
+>
+	<Header />
+
+	<main id="main-content">
+		<!-- Hero Header -->
+		<section class="bg-brand-blue py-16 md:py-20">
+			<div class="container mx-auto px-4 text-center">
+				<h1 class="text-4xl md:text-5xl font-bold text-white mb-4">{t('blog.title')}</h1>
+				<p class="text-xl text-white/90 max-w-2xl mx-auto">{t('blog.subtitle')}</p>
+			</div>
+		</section>
+
+		<!-- Blog Cards -->
+		<section class="py-16 md:py-20">
+			<div class="container mx-auto px-4">
+				<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+					{
+						posts.map((post) => (
+							<a
+								href={getRelativeLocaleUrl(lang, `blog/${post.id}`)}
+								class="group block bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden"
+							>
+								{post.data.heroImage && (
+									<div class="aspect-video overflow-hidden bg-gray-100">
+										<img
+											src={post.data.heroImage}
+											alt={post.data.title}
+											width="1600"
+											height="900"
+											loading="lazy"
+											decoding="async"
+											class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+										/>
+									</div>
+								)}
+								<div class="p-6">
+									<div class="flex items-center gap-2 mb-3 text-sm text-gray-500">
+										<time datetime={post.data.pubDate.toISOString()}>
+											{post.data.pubDate.toLocaleDateString('en-US', {
+												year: 'numeric',
+												month: 'long',
+												day: 'numeric',
+											})}
+										</time>
+									</div>
+									<h3 class="text-xl font-bold text-brand-blue mb-2 group-hover:text-brand-gold transition-colors">
+										{post.data.title}
+									</h3>
+									<p class="text-gray-600 line-clamp-3 mb-4">
+										{post.data.description}
+									</p>
+									<span class="text-brand-blue font-medium inline-flex items-center gap-1 group-hover:gap-2 transition-all">
+										{t('blog.read_more')}
+									</span>
+								</div>
+							</a>
+						))
+					}
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<Footer />
+</Layout>

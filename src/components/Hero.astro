@@ -1,0 +1,86 @@
+---
+import LocationQuickAccess from './LocationQuickAccess.astro';
+import { getLangFromUrl, getRelativeLocaleUrl } from '../i18n/utils';
+import { getLocationBySlug, locations, locationSlugs } from '../data/locations';
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  ctaPrimary?: string;
+  ctaSecondary?: string;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const pathname = Astro.url.pathname;
+
+// Detect location slug from URL
+const matchedLocation = locationSlugs.find(slug => pathname.includes(`/${slug}`));
+
+// Get location phone for call button on location pages
+const locationData = matchedLocation ? getLocationBySlug(matchedLocation) : undefined;
+const phoneHref = locationData ? `tel:${locationData.phone}` : undefined;
+const callLabel = lang === 'es' ? `Llamar ${locationData?.phoneDisplay}` : `Call ${locationData?.phoneDisplay}`;
+
+// Dynamic title based on location
+let dynamicTitle: string;
+if (matchedLocation && locationData) {
+  dynamicTitle = lang === 'es'
+    ? `Tu Dentista Cerca de Ti en ${locationData.name}`
+    : `Your Dentist Near You in ${locationData.name}`;
+} else if (pathname === '/' || pathname === '/es/') {
+  // Home page: show all locations
+  dynamicTitle = lang === 'es'
+    ? 'Cuidamos tu sonrisa. Como en casa.'
+    : 'Your neighborhood dentist. A reason to smile.';
+} else {
+  dynamicTitle = lang === 'es'
+    ? 'Servicios Dentales Profesionales para <span class="text-white italic">Su Familia</span>'
+    : 'Professional Dental Services for <span class="text-white italic">Your Family</span>';
+}
+
+const {
+  title = dynamicTitle,
+  subtitle = lang === 'es'
+    ? 'Brindamos atención dental integral que incluye odontología general, implantes dentales y tratamientos cosméticos en un ambiente cómodo.'
+    : 'We provide comprehensive dental care including general dentistry, dental implants, and cosmetic treatments in a comfortable environment.',
+  ctaPrimary = lang === 'es' ? 'Hacer Cita' : 'Make an Appointment',
+  ctaSecondary = lang === 'es' ? 'Ver Ofertas' : 'View Specials'
+} = Astro.props;
+
+// Build specials link: location-specific if on a location page, otherwise global
+const specialsPath = matchedLocation ? `${matchedLocation}/specials` : 'specials';
+const specialsHref = getRelativeLocaleUrl(lang, specialsPath);
+---
+
+<section class="panorama-hero">
+  <img class="hero-background" src="/images/dental/main-office.webp" alt="Liberty Smile Center dental office reception" width="1600" height="900" loading="eager" fetchpriority="high" />
+  <div class="hero-shade"></div>
+  <div class="container mx-auto hero-content">
+    <span class="hero-eyebrow">{lang === 'es' ? 'LIBERTY SMILE CENTER · ATENCIÓN PARA TODA LA FAMILIA' : 'LIBERTY SMILE CENTER · CARE FOR THE WHOLE FAMILY'}</span>
+    <h1 set:html={title} />
+    <p>{subtitle}</p>
+    <div class="hero-actions">
+      <a href={getRelativeLocaleUrl(lang, matchedLocation ? `${matchedLocation}/appointment` : 'appointment')} class="button-primary">{ctaPrimary}</a>
+      <a href={phoneHref || specialsHref} class="button-secondary">{phoneHref ? callLabel : ctaSecondary}</a>
+    </div>
+    <div class="hero-note">{lang === 'es' ? 'Medi-Cal y PPO · Hablamos español · Financiamiento disponible' : 'Medi-Cal & PPO accepted · Hablamos español · Financing available'}</div>
+  </div>
+</section>
+<LocationQuickAccess selectedSlug={matchedLocation} />
+<style>
+.panorama-hero { position:relative; min-height:600px; display:flex; align-items:center; background:#203251; color:white; isolation:isolate; }
+.hero-background,.hero-shade { position:absolute; inset:0; width:100%; height:100%; z-index:-1; }
+.hero-background { object-fit:cover; object-position:center 55%; }
+.hero-shade { background:linear-gradient(90deg,rgba(15,30,55,.88),rgba(15,30,55,.62) 55%,rgba(15,30,55,.28)); }
+.hero-content { padding-block:85px 115px; }
+.hero-eyebrow { font-size:11px; letter-spacing:.2em; display:block; margin-bottom:24px; font-weight:600; }
+h1 { color:white; font-size:clamp(2.3rem,4.7vw,4.5rem); font-weight:700; line-height:1.1; max-width:830px; letter-spacing:-.04em; }
+h1 :global(span) { color:white; }
+p { font-size:17px; line-height:1.8; max-width:610px; margin:25px 0 30px; color:#e8eef7; }
+.hero-actions { display:flex; flex-wrap:wrap; gap:15px; }
+.button-primary { background:#416dcd; padding-inline:32px; }
+.button-secondary { color:white; border-color:#b8c7df; padding-inline:30px; }
+.button-secondary:hover { background:#ffffff18; }
+.hero-note { margin-top:28px; font-size:12px; color:#dbe5f4; }
+@media(max-width:700px) { .panorama-hero { min-height:540px; } .hero-content { padding-block:55px 80px; } .hero-shade { background:#122542c9; } h1 { font-size:2.6rem; } p { font-size:15px; } .hero-note { font-size:11px; line-height:1.8; } }
+</style>

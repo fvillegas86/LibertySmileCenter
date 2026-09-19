@@ -1,0 +1,47 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const insuranceProviders = [
+  'Aetna',
+  'Ameritas',
+  'Anthem Blue Cross',
+  'Cigna',
+  'Delta Dental',
+  'Guardian',
+  'MetLife',
+  'United Health Care',
+];
+---
+
+<div class="bg-brand-blue/95 backdrop-blur text-white py-12">
+  <div class="container mx-auto px-4 text-center">
+    <h3 class="text-2xl md:text-3xl font-serif font-bold mb-6">{t('footer.insurance.title')}</h3>
+    <p class="text-lg mb-8 max-w-3xl mx-auto opacity-90">
+      {t('footer.insurance.text')}
+    </p>
+
+    <div class="flex flex-wrap justify-center gap-4 md:gap-8 mb-10 font-bold text-lg">
+      <span class="flex items-center gap-2 bg-white/10 px-6 py-3 rounded-full">✅ Medi-Cal</span>
+      <span class="flex items-center gap-2 bg-white/10 px-6 py-3 rounded-full">✅ Most PPO Insurance</span>
+    </div>
+
+    <p class="text-base md:text-lg font-medium mb-6 opacity-90">
+      {t('footer.insurance.we_take')}
+    </p>
+
+    <div class="flex flex-wrap justify-center gap-3 md:gap-4 mb-10 max-w-4xl mx-auto">
+      {insuranceProviders.map((provider) => (
+        <span class="bg-white/10 border border-white/20 px-4 py-2 rounded-lg text-sm md:text-base font-medium">
+          {provider}
+        </span>
+      ))}
+    </div>
+
+    <div class="inline-block bg-white text-brand-blue font-bold text-xl px-8 py-4 rounded-xl shadow-lg animate-pulse">
+      {t('footer.insurance.accepting')}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import AppointmentForm from '../components/AppointmentForm.astro';
+import { locations } from '../data/locations';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Dentist",
+  "name": "Liberty Smile Center",
+  "description": "Make an appointment at Liberty Smile Center. We have 5 convenient locations across Southern California.",
+  "url": "https://libertysmilecenter.com/appointment",
+  "priceRange": "$$",
+  "areaServed": locations.map((l) => l.name)
+};
+---
+
+<Layout title="Make an Appointment - Liberty Smile Center" description="Book your dental appointment at Liberty Smile Center. 5 convenient locations across Southern California. 0% interest financing available." jsonLd={schema}>
+  <Header />
+
+  <main id="main-content">
+    <section class="bg-brand-blue py-12 md:py-16 text-white">
+      <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl font-bold mb-4">Schedule Your Visit</h1>
+        <p class="text-xl text-white/90">Book an appointment at any of our 5 convenient locations</p>
+      </div>
+    </section>
+
+    <section class="py-12 md:py-20 bg-white">
+      <div class="container mx-auto px-4 max-w-4xl">
+        <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 mb-12">
+          <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <span class="text-3xl" aria-hidden="true">📅</span> Request an Appointment
+          </h2>
+          <AppointmentForm />
+        </div>
+
+        <h2 class="text-2xl font-bold text-slate-900 mb-6">Our Locations</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          {locations.map((loc) => (
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-100">
+              <h3 class="text-lg font-bold text-brand-blue mb-2">{loc.name}</h3>
+              <p class="text-slate-600 text-sm mb-2">{loc.address}</p>
+              <a href={`tel:${loc.phone}`} class="text-brand-blue font-semibold hover:underline text-sm">{loc.phoneDisplay}</a>
+              <a href={`/${loc.slug}/appointment`} class="block mt-3 text-center bg-brand-blue text-white px-4 py-2 rounded-full font-semibold text-sm hover:bg-blue-700 transition-colors">
+                Book in {loc.name} →
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

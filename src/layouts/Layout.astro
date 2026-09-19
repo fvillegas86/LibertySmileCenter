@@ -1,70 +1,108 @@
 ---
-import { SEO } from "astro-seo";
 import '../styles/global.css';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-
+import { getLangFromUrl } from '../i18n/utils';
+import MobileActionbar from '../components/MobileActionbar.astro';
 
 interface Props {
 	title: string;
 	description?: string;
+	lang?: string;
+	canonical?: string;
+	image?: string;
+	type?: string;
+	noindex?: boolean;
+	jsonLd?: object | object[];
 }
 
-const { 
-  title, 
-  description = "Top Dentist in South Gate and Van Nuys. Liberty Smile Center offers Implants, Braces, Cosmetic & Oral Surgery. 0% Interest Finance available." 
+const {
+  title,
+  description = "Top Dentist in South Gate, Van Nuys, Whittier, La Habra, and Downey. Liberty Smile Center offers Implants, Braces, Cosmetic & Oral Surgery. 0% Interest Financing available.",
+  lang,
+  canonical,
+  image = "/images/dental/share-preview.webp",
+  type = "website",
+  noindex = false,
+  jsonLd
 } = Astro.props;
+
+const detectedLang = lang || getLangFromUrl(Astro.url);
+const baseUrl = "https://libertysmilecenter.com";
+const currentPath = Astro.url.pathname;
+const currentUrl = canonical || `${baseUrl}${currentPath}`;
+const ogImageUrl = image.startsWith('http') ? image : `${baseUrl}${image}`;
+const ogLocale = detectedLang === 'es' ? 'es_US' : 'en_US';
+const ogLocaleAlternate = detectedLang === 'es' ? 'en_US' : 'es_US';
+
+const jsonLdItems = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={detectedLang}>
 	<head>
 		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width" />
+		{noindex && <meta name="robots" content="noindex, nofollow" />}
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="apple-touch-icon" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-    
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+		<meta name="theme-color" content="#365fb0" />
 
-    <SEO
-      title={title}
-      description={description}
-      openGraph={{
-        basic: {
-          title: title,
-          type: "website",
-          image: "https://libertysmilecenter.com/wp-content/uploads/2018/01/Liberty-Smile-Center-Logo.png", // Fallback to live site logo for now
-        },
-        optional: {
-          siteName: "Liberty Smile Center",
-        }
-      }}
-    />
+		<!-- Google Fonts: Inter -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Google Tag Manager (Partytown) -->
-    <script type="text/partytown">
-      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-MZC6XGL');
-    </script>
-    <!-- End Google Tag Manager -->
+		<title>{title}</title>
+		<link rel="canonical" href={currentUrl} />
+		{(currentPath === '/' || currentPath === '/es/' || currentPath === '/es') && <>
+          <link rel="alternate" hreflang="en" href={`${baseUrl}/`} />
+          <link rel="alternate" hreflang="es" href={`${baseUrl}/es/`} />
+          <link rel="alternate" hreflang="x-default" href={`${baseUrl}/`} />
+        </>}
 
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content={type} />
+		<meta property="og:url" content={currentUrl} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:site_name" content="Liberty Smile Center" />
+		<meta property="og:locale" content={ogLocale} />
+		<meta property="og:locale:alternate" content={ogLocaleAlternate} />
+		<meta property="og:image" content={ogImageUrl} />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={currentUrl} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={ogImageUrl} />
+
+		<!-- Google Tag Manager (Partytown) -->
+		<script type="text/partytown">
+		(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer','GTM-MZC6XGL');
+		</script>
+		<!-- End Google Tag Manager -->
+
+		{jsonLdItems.map((item) => (
+			<script type="application/ld+json" set:html={JSON.stringify(item)} />
+		))}
+
+		<style is:global>
+			html { scroll-behavior: smooth; }
+		</style>
 	</head>
-	<body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZC6XGL"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
-    <Header />
-		<main class="flex-1">
-      <slot />
-    </main>
-    <Footer />
+	<body class="bg-white font-sans text-gray-800">
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZC6XGL"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
+		<a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] bg-brand-blue text-white px-4 py-2 rounded-lg shadow-lg">Skip to main content</a>
+		<slot />
+		<MobileActionbar />
 	</body>
 </html>

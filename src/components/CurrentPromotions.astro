@@ -1,0 +1,93 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const {
+  title = t('specials.current_promotions'),
+  subtitle = t('specials.current_promotions_subtitle'),
+} = Astro.props;
+
+const promotions = lang === 'es'
+  ? [
+      {
+        badge: 'POR TIEMPO LIMITADO',
+        badgeClass: 'bg-brand-gold/20 text-brand-gold',
+        heading: 'Especial de Implantes',
+        description: 'Obtenga $500 de descuento en la colocación de implantes dentales. Restaure su sonrisa con implantes duraderos y de apariencia natural.',
+        amount: '$500 DE DESCUENTO',
+        footnote: 'Válido hasta fin de mes. No se puede combinar con otras ofertas.',
+      },
+      {
+        badge: 'POPULAR',
+        badgeClass: 'bg-green-100 text-green-600',
+        heading: 'Descuento Familiar',
+        description: '¡Traiga a toda su familia! Ahorre 15% cuando 3 o más miembros de la familia reserven citas juntas.',
+        amount: '15% DE DESCUENTO',
+        footnote: 'Deben ser del mismo hogar. Válido para todos los servicios.',
+      },
+      {
+        badge: 'ADULTOS MAYORES',
+        badgeClass: 'bg-blue-100 text-blue-600',
+        heading: 'Descuento para Adultos Mayores',
+        description: 'Pacientes de 65+ reciben 10% de descuento en todos los servicios dentales. ¡Respetamos a nuestros adultos mayores!',
+        amount: '10% DE DESCUENTO',
+        footnote: 'Se requiere identificación válida. No se puede combinar con descuentos de seguro.',
+      },
+    ]
+  : [
+      {
+        badge: 'LIMITED TIME',
+        badgeClass: 'bg-brand-gold/20 text-brand-gold',
+        heading: 'Implant Special',
+        description: 'Get $500 off dental implant placement. Restore your smile with durable, natural-looking implants.',
+        amount: '$500 OFF',
+        footnote: 'Valid through end of month. Cannot be combined with other offers.',
+      },
+      {
+        badge: 'POPULAR',
+        badgeClass: 'bg-green-100 text-green-600',
+        heading: 'Family Discount',
+        description: 'Bring your whole family! Save 15% when 3 or more family members book appointments together.',
+        amount: '15% OFF',
+        footnote: 'Must be same household. Valid for all services.',
+      },
+      {
+        badge: 'SENIORS',
+        badgeClass: 'bg-blue-100 text-blue-600',
+        heading: 'Senior Discount',
+        description: 'Patients 65+ receive 10% off all dental services. We respect our seniors!',
+        amount: '10% OFF',
+        footnote: 'Valid ID required. Cannot be combined with insurance discounts.',
+      },
+    ];
+---
+
+<section class="py-12 md:py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-brand-blue mb-4">{title}</h2>
+      <p class="text-xl text-gray-600">{subtitle}</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      {promotions.map((promo) => (
+        <div class="bg-gray-50 rounded-2xl p-8 border border-gray-200 hover:shadow-lg transition-shadow">
+          <div class="flex items-start gap-4">
+            <div class={`px-3 py-1 rounded-full text-sm font-bold ${promo.badgeClass}`}>{promo.badge}</div>
+          </div>
+          <h3 class="text-2xl font-bold text-brand-blue mt-4 mb-3">{promo.heading}</h3>
+          <p class="text-gray-600 mb-4">{promo.description}</p>
+          <div class="text-3xl font-bold text-brand-blue mb-2">{promo.amount}</div>
+          <p class="text-sm text-gray-500">{promo.footnote}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

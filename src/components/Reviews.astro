@@ -1,0 +1,226 @@
+---
+import { getLangFromUrl } from '../i18n/utils';
+
+interface Props {
+  location?: 'south-gate' | 'van-nuys' | 'whittier' | 'la-habra' | 'downey';
+}
+
+const { location } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+
+const reviewsByLocation: Record<string, { en: Array<{ name: string; stars: number; text: string }>; es: Array<{ name: string; stars: number; text: string }> }> = {
+  'south-gate': {
+    en: [
+      {
+        name: 'Maria Gonzalez',
+        stars: 5,
+        text: "I've been coming to Liberty Smile Center in South Gate for over two years. The staff is incredibly friendly and the dentists really take the time to explain everything. They accepted my Medi-Cal with no issues. Highly recommend!",
+      },
+      {
+        name: 'James Patterson',
+        stars: 5,
+        text: "Best dental experience I've ever had. I was nervous about getting my implants done, but Dr. and the team made me feel completely comfortable. The office is clean and modern. The 0% financing really helped my budget.",
+      },
+      {
+        name: 'Sandra Lopez',
+        stars: 5,
+        text: "Took my kids here for their checkups and everyone was so patient and kind. The bilingual staff made it easy for my parents who only speak Spanish. We finally found our family dentist!",
+      },
+    ],
+    es: [
+      {
+        name: 'Maria Gonzalez',
+        stars: 5,
+        text: "Llevo más de dos años viniendo a Liberty Smile Center en South Gate. El personal es increíblemente amable y los dentistas se toman el tiempo para explicar todo. Aceptaron mi Medi-Cal sin problemas. ¡Lo recomiendo mucho!",
+      },
+      {
+        name: 'James Patterson',
+        stars: 5,
+        text: "La mejor experiencia dental que he tenido. Estaba nervioso por mis implantes, pero el doctor y el equipo me hicieron sentir completamente cómodo. La oficina es limpia y moderna. El financiamiento al 0% realmente ayudó a mi presupuesto.",
+      },
+      {
+        name: 'Sandra Lopez',
+        stars: 5,
+        text: "Llevé a mis hijos aquí para sus revisiones y todos fueron muy pacientes y amables. El personal bilingüe lo hizo fácil para mis padres que solo hablan español. ¡Finalmente encontramos nuestro dentista familiar!",
+      },
+    ],
+  },
+  'van-nuys': {
+    en: [
+      {
+        name: 'David Kim',
+        stars: 5,
+        text: "Liberty Smile Center in Van Nuys is fantastic. I needed orthodontic work and they walked me through every step. The payment plan was affordable and the results speak for themselves. My smile has never looked better!",
+      },
+      {
+        name: 'Ashley Rodriguez',
+        stars: 5,
+        text: "I had a dental emergency and they fit me in the same day. The dentist was gentle and the front desk staff was so helpful with my insurance. This is the kind of care every patient deserves.",
+      },
+      {
+        name: 'Robert Chen',
+        stars: 5,
+        text: "Professional, clean, and efficient. I've been to several dentists in the Valley and this is by far the best. They respect your time and never keep you waiting. The parking on Sepulveda makes it super convenient too.",
+      },
+    ],
+    es: [
+      {
+        name: 'David Kim',
+        stars: 5,
+        text: "Liberty Smile Center en Van Nuys es fantástico. Necesitaba trabajo de ortodoncia y me guiaron en cada paso. El plan de pagos era asequible y los resultados hablan por sí mismos. ¡Mi sonrisa nunca se vio mejor!",
+      },
+      {
+        name: 'Ashley Rodriguez',
+        stars: 5,
+        text: "Tuve una emergencia dental y me atendieron el mismo día. El dentista fue gentil y el personal de recepción fue muy útil con mi seguro. Este es el tipo de atención que todo paciente merece.",
+      },
+      {
+        name: 'Robert Chen',
+        stars: 5,
+        text: "Profesional, limpio y eficiente. He ido a varios dentistas en el Valle y este es definitivamente el mejor. Respetan su tiempo y nunca lo hacen esperar. El estacionamiento en Sepulveda también lo hace súper conveniente.",
+      },
+    ],
+  },
+  whittier: {
+    en: [
+      {
+        name: 'Patricia Martinez',
+        stars: 5,
+        text: "I love this Whittier office! The staff remembers your name and treats you like family. I had a root canal done and honestly it was painless. They even called the next day to check on me. That's real patient care.",
+      },
+      {
+        name: 'Michael Thompson',
+        stars: 5,
+        text: "Got my veneers done here and I couldn't be happier. The cosmetic work is top-notch and the prices were very reasonable compared to other offices I consulted. The whole process took less time than I expected.",
+      },
+      {
+        name: 'Jessica Ramirez',
+        stars: 5,
+        text: "My whole family goes to Liberty Smile Center in Whittier. From my 5-year-old's first cleaning to my mom's dentures, they handle it all with care. Bilingual staff and they accept our insurance. Couldn't ask for more.",
+      },
+    ],
+    es: [
+      {
+        name: 'Patricia Martinez',
+        stars: 5,
+        text: "¡Amo esta oficina en Whittier! El personal recuerda su nombre y lo trata como familia. Me hicieron un tratamiento de conducto y honestamente fue indoloro. Incluso llamaron al día siguiente para ver cómo estaba. Eso es verdadera atención al paciente.",
+      },
+      {
+        name: 'Michael Thompson',
+        stars: 5,
+        text: "Me hicieron mis carillas aquí y no podría estar más feliz. El trabajo cosmético es de primera y los precios fueron muy razonables comparados con otras oficinas que consulté. Todo el proceso tomó menos tiempo del que esperaba.",
+      },
+      {
+        name: 'Jessica Ramirez',
+        stars: 5,
+        text: "Toda mi familia va a Liberty Smile Center en Whittier. Desde la primera limpieza de mi hijo de 5 años hasta las dentaduras de mi mamá, manejan todo con cuidado. Personal bilingüe y aceptan nuestro seguro. No podría pedir más.",
+      },
+    ],
+  },
+  'la-habra': {
+    en: [
+      {
+        name: 'Daniel Foster',
+        stars: 5,
+        text: "I was referred to the La Habra office by a coworker and I'm so glad I came. The dentist was thorough and honest—didn't try to upsell me on anything I didn't need. Got my cleaning and exam done quickly and painlessly.",
+      },
+      {
+        name: 'Caroline Nguyen',
+        stars: 5,
+        text: "My experience at Liberty Smile Center was excellent from start to finish. The office is spotless, the equipment is modern, and the staff genuinely cares. They worked with my PPO insurance and I paid way less than expected.",
+      },
+      {
+        name: 'Anthony Garcia',
+        stars: 5,
+        text: "Had my wisdom teeth extracted here last month. The oral surgeon was skilled and the recovery was smooth. They gave me clear aftercare instructions and followed up. This office really knows what they're doing.",
+      },
+    ],
+    es: [
+      {
+        name: 'Daniel Foster',
+        stars: 5,
+        text: "Un compañero de trabajo me refirió a la oficina de La Habra y me alegra mucho haber venido. El dentista fue exhaustivo y honesto—no intentó venderme algo que no necesitaba. Me hicieron la limpieza y el examen rápida e indoloramente.",
+      },
+      {
+        name: 'Caroline Nguyen',
+        stars: 5,
+        text: "Mi experiencia en Liberty Smile Center fue excelente de principio a fin. La oficina está impecable, el equipo es moderno y al personal le importa de verdad. Trabajaron con mi seguro PPO y pagué mucho menos de lo esperado.",
+      },
+      {
+        name: 'Anthony Garcia',
+        stars: 5,
+        text: "Me extrajeron las muelas del juicio aquí el mes pasado. El cirujano oral fue hábil y la recuperación fue sin problemas. Me dieron instrucciones claras de cuidado y me hicieron seguimiento. Esta oficina realmente sabe lo que hace.",
+      },
+    ],
+  },
+  downey: {
+    en: [
+      {
+        name: 'Stephanie Wilson',
+        stars: 5,
+        text: "The Downey office on Lakewood Blvd is amazing. I needed All-on-4 implants and the team did an incredible job. They explained the financing options clearly and the 0% interest plan made it affordable. I can smile with confidence again!",
+      },
+      {
+        name: 'Kevin Park',
+        stars: 5,
+        text: "I took my elderly father here for dentures and the compassion the staff showed him was heartwarming. They were patient, explained everything in Spanish for him, and the fit of his dentures is perfect. Thank you Liberty Smile Center!",
+      },
+      {
+        name: 'Brittany Adams',
+        stars: 5,
+        text: "I've been a patient for about a year now. Every visit has been great. Short wait times, friendly hygienists, and the dentist actually listens to your concerns. They accept my insurance and the location is easy to get to from the 5 freeway.",
+      },
+    ],
+    es: [
+      {
+        name: 'Stephanie Wilson',
+        stars: 5,
+        text: "La oficina de Downey en Lakewood Blvd es increíble. Necesitaba implantes All-on-4 y el equipo hizo un trabajo increíble. Explicaron las opciones de financiamiento claramente y el plan al 0% interés lo hizo asequible. ¡Puedo sonreír con confianza otra vez!",
+      },
+      {
+        name: 'Kevin Park',
+        stars: 5,
+        text: "Llevé a mi padre mayor aquí para dentaduras y la compasión que el personal le mostró fue conmovedora. Fueron pacientes, le explicaron todo en español, y el ajuste de sus dentaduras es perfecto. ¡Gracias Liberty Smile Center!",
+      },
+      {
+        name: 'Brittany Adams',
+        stars: 5,
+        text: "He sido paciente por aproximadamente un año. Cada visita ha sido excelente. Tiempos de espera cortos, higienistas amables, y el dentista realmente escucha sus preocupaciones. Aceptan mi seguro y la ubicación es fácil de llegar desde la autopista 5.",
+      },
+    ],
+  },
+};
+
+const sectionTitle = lang === 'es' ? 'Lo Que Dicen Nuestros Pacientes' : 'What Our Patients Say';
+const sectionSubtitle = lang === 'es' ? 'Reseñas reales de pacientes reales' : 'Real reviews from real patients';
+
+const reviews = location ? reviewsByLocation[location]?.[lang] || [] : [];
+---
+
+<section class="py-12 md:py-20 bg-gray-50">
+  <div class="container mx-auto px-4">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <h2 class="text-3xl md:text-4xl font-bold text-brand-blue mb-4">{sectionTitle}</h2>
+      <p class="text-xl text-gray-600">{sectionSubtitle}</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      {reviews.map((review) => (
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-shadow">
+          <div class="flex items-center gap-1 mb-4">
+            {Array.from({ length: review.stars }).map(() => (
+              <span class="text-brand-gold text-xl">★</span>
+            ))}
+          </div>
+          <p class="text-gray-600 mb-6 leading-relaxed">"{review.text}"</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-brand-blue/10 rounded-full flex items-center justify-center">
+              <span class="text-brand-blue font-bold text-lg">{review.name.charAt(0)}</span>
+            </div>
+            <span class="font-semibold text-gray-800">{review.name}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

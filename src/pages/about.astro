@@ -1,83 +1,79 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Icon } from 'astro-icon/components';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CallToAction from '../components/CallToAction.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { locations } from '../data/locations';
 
-const values = [
-  {
-    icon: "mdi:hand-heart",
-    title: "Compassionate Care",
-    description: "We treat every patient with kindness, respect, and empathy, ensuring a comfortable experience."
-  },
-  {
-    icon: "mdi:certificate",
-    title: "Excellence",
-    description: "Our team is committed to the highest standards of dental practice and continuous education."
-  },
-  {
-    icon: "mdi:account-group",
-    title: "Community Focus",
-    description: "Serving South Gate and Van Nuys with dedication, making quality dentistry accessible to all."
-  }
-];
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const aboutSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "About Liberty Smile Center",
+  "description": "Learn about Liberty Smile Center, a family dental practice serving South Gate, Van Nuys, Whittier, La Habra, and Downey, CA.",
+  "url": "https://libertysmilecenter.com/about"
+};
 ---
 
-<Layout title="About Us | Liberty Smile Center">
-  <div class="bg-slate-50 py-12 md:py-20">
-    <div class="container mx-auto px-4">
-      <div class="max-w-3xl mx-auto text-center">
-        <h1 class="text-4xl md:text-5xl font-bold mb-6">About Liberty Smile Center</h1>
-        <p class="text-xl text-slate-600 leading-relaxed">
-          dedicated to fulfilling your dental needs with excellence.
-        </p>
-      </div>
-    </div>
-  </div>
+<Layout title="About Liberty Smile Center - Top Rated Dentist in Southern California" description="Liberty Smile Center is a family dental practice serving South Gate, Van Nuys, Whittier, La Habra, and Downey, CA. 10+ years of experience. Accepting Medi-Cal and PPO. 0% interest financing." jsonLd={aboutSchema}>
+  <Header />
 
-  <section class="py-16 md:py-24">
-    <div class="container mx-auto px-4">
-      <div class="grid md:grid-cols-2 gap-12 items-center">
-        <div>
-          <h2 class="text-3xl font-bold mb-6">Our Mission</h2>
-          <p class="text-slate-600 mb-6 leading-loose">
-            At Liberty Smile Center, we are more than just a dental office; we are a dedicated team of professionals passionate about oral health. 
-            Our mission is to provide top-tier dental care in a welcoming and safe environment.
-          </p>
-          <p class="text-slate-600 mb-6 leading-loose">
-            We understand that visiting the dentist can be stressful for some, which is why we prioritize patient comfort above all else. 
-            From our friendly front desk staff to our skilled hygienists and dentists, everyone is here to support you.
-          </p>
-          <div class="flex gap-4 mt-8">
-            <a href="/contact" class="px-6 py-3 bg-brand-blue text-white font-bold rounded-lg shadow hover:bg-blue-700 transition-colors">
-              Meet Our Team
-            </a>
-          </div>
-        </div>
-        <div class="relative">
-          <!-- Placeholder for office image -->
-          <div class="aspect-video bg-slate-200 rounded-2xl shadow-xl flex items-center justify-center overflow-hidden">
-             <Icon name="mdi:office-building" class="size-24 text-slate-300" />
-          </div>
-          <!-- Decorative element -->
-          <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-brand-gold/20 rounded-full blur-2xl"></div>
+  <main id="main-content">
+    <section class="relative py-24 lg:py-32 flex items-center justify-center overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-black/50 z-10"></div>
+        <img
+          src="/images/dental/main-office.webp"
+          alt="Liberty Smile Center Dental Office"
+          width="1600"
+          height="900"
+          loading="eager"
+          decoding="async"
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <div class="container mx-auto px-4 relative z-20 text-center text-white">
+        <div class="max-w-3xl mx-auto">
+          <h1 class="text-4xl md:text-5xl font-bold mb-6">About Liberty Smile Center</h1>
+          <p class="text-xl md:text-2xl text-gray-100 mb-4">Your trusted dental home across Southern California</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="py-16 bg-white border-t border-slate-100">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-16">Our Core Values</h2>
-      <div class="grid md:grid-cols-3 gap-8">
-        {values.map(value => (
-          <div class="text-center p-6 rounded-xl hover:bg-slate-50 transition-colors">
-            <div class="w-16 h-16 bg-blue-50 text-brand-blue rounded-full flex items-center justify-center mx-auto mb-6">
-              <Icon name={value.icon} class="size-8" />
-            </div>
-            <h3 class="text-xl font-bold mb-3">{value.title}</h3>
-            <p class="text-slate-600">{value.description}</p>
-          </div>
-        ))}
+    <section class="py-12 md:py-20 bg-white">
+      <div class="container mx-auto px-4 max-w-4xl">
+        <div class="prose lg:prose-xl mx-auto">
+          <h2>Our Mission</h2>
+          <p>At Liberty Smile Center, we believe that a healthy smile is the foundation of overall wellness. Our experienced team is dedicated to providing personalized, high-quality dental care in a warm and welcoming environment. With five convenient locations across Southern California, we make it easy for you and your family to receive the dental care you deserve.</p>
+
+          <h2>Our Story</h2>
+          <p>For over 10 years, Liberty Smile Center has been serving patients across South Gate, Van Nuys, Whittier, La Habra, and Downey. What started as a single office has grown into a network of five dental practices, each committed to the same standard of excellence. We have built our reputation on trust, transparency, and genuine care for our patients.</p>
+
+          <h2>What Sets Us Apart</h2>
+          <ul>
+            <li><strong>Comprehensive Care:</strong> From preventive cleanings to advanced dental implants and orthodontics, we provide all the services you need under one roof.</li>
+            <li><strong>Patient-First Approach:</strong> We prioritize transparency and patient well-being, ensuring a complete and detailed treatment plan with full disclosure before proceeding with any procedure.</li>
+            <li><strong>Insurance & Financing:</strong> We accept Medi-Cal and most PPO insurance plans. No insurance? We offer 0% interest financing options.</li>
+            <li><strong>Convenience:</strong> Walk-in appointments and same-day emergency services are available at all five locations.</li>
+            <li><strong>Experienced Team:</strong> Our dentists and staff bring over a decade of experience in providing exceptional dental care.</li>
+          </ul>
+
+          <h2>Our Locations</h2>
+          <p>We proudly serve patients across Southern California with five convenient offices:</p>
+          <ul>
+            {locations.map((loc) => (
+              <li><strong>{loc.name}:</strong> {loc.address} · {loc.phoneDisplay}</li>
+            ))}
+          </ul>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <CallToAction />
+  </main>
+
+  <Footer />
 </Layout>

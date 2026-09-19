@@ -1,85 +1,128 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Icon } from 'astro-icon/components';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { locations } from '../data/locations';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const contactSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "name": "Contact Liberty Smile Center",
+  "description": "Contact Liberty Smile Center. Reach out to schedule an appointment or ask questions at any of our 5 locations.",
+  "url": "https://libertysmilecenter.com/contact"
+};
+
+const phoneMap: Record<string, string> = {};
+locations.forEach((loc) => { phoneMap[loc.slug] = loc.phoneDisplay; });
 ---
 
-<Layout title="Contact Us | Liberty Smile Center">
-  <div class="bg-brand-blue py-20 text-white text-center">
-    <div class="container mx-auto px-4">
-      <h1 class="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
-      <p class="text-blue-100 text-lg">We are here to help you smile.</p>
-    </div>
-  </div>
+<Layout title="Contact Us - Liberty Smile Center" description="Contact Liberty Smile Center. Reach out to schedule an appointment or ask questions at any of our 5 locations across Southern California." jsonLd={contactSchema}>
+  <Header />
 
-  <section class="py-16 md:py-24">
-    <div class="container mx-auto px-4">
-      <div class="grid lg:grid-cols-2 gap-16">
-        <!-- Contact Info -->
-        <div>
-          <h2 class="text-3xl font-bold mb-8 text-slate-900">Get in Touch</h2>
-          <div class="space-y-8">
-            <div class="flex items-start gap-4">
-              <div class="w-12 h-12 bg-blue-50 text-brand-blue rounded-lg flex items-center justify-center shrink-0">
-                <Icon name="mdi:map-marker" class="size-6" />
+  <main id="main-content">
+    <section class="bg-brand-blue py-12 md:py-16 text-white">
+      <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl font-bold mb-4">{t('contact.title')}</h1>
+        <p class="text-xl text-white/90">{t('contact.subtitle')}</p>
+      </div>
+    </section>
+
+    <section class="py-12 md:py-20 bg-white">
+      <div class="container mx-auto px-4 max-w-6xl">
+        <div class="grid lg:grid-cols-2 gap-12">
+
+          <!-- Form -->
+          <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-6">{t('contact.send_message')}</h2>
+            <form action="/api/contact" method="POST" class="space-y-5">
+              <div>
+                <label for="name" class="block text-sm font-semibold text-slate-700 mb-1">{t('contact.name')}</label>
+                <input type="text" id="name" name="name" required class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition" />
               </div>
               <div>
-                <h3 class="font-bold text-lg mb-1">South Gate Office</h3>
-                <p class="text-slate-600 mb-2">8330 Long Beach Blvd #107<br/>South Gate, CA 90280</p>
-                <a href="tel:3235649400" class="text-brand-blue font-semibold hover:underline">(323) 564-9400</a>
-              </div>
-            </div>
-
-            <div class="flex items-start gap-4">
-              <div class="w-12 h-12 bg-blue-50 text-brand-blue rounded-lg flex items-center justify-center shrink-0">
-                <Icon name="mdi:map-marker" class="size-6" />
+                <label for="phone" class="block text-sm font-semibold text-slate-700 mb-1">{t('contact.phone')}</label>
+                <input type="tel" id="phone" name="phone" required class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition" />
               </div>
               <div>
-                <h3 class="font-bold text-lg mb-1">Van Nuys Office</h3>
-                <p class="text-slate-600 mb-2">6736 Sepulveda Blvd<br/>Van Nuys, CA 91411</p>
-                <a href="tel:8187868803" class="text-brand-blue font-semibold hover:underline">(818) 786-8803</a>
+                <label for="email" class="block text-sm font-semibold text-slate-700 mb-1">{t('contact.email')}</label>
+                <input type="email" id="email" name="email" required class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition" />
               </div>
-            </div>
+              <div>
+                <label for="office" class="block text-sm font-semibold text-slate-700 mb-1">{t('contact.select_location')}</label>
+                <select id="office" name="office" required class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition">
+                  <option value="" disabled selected>{t('contact.select_location_placeholder')}</option>
+                  {locations.map((loc) => (
+                    <option value={loc.slug}>{loc.name} — {loc.phoneDisplay}</option>
+                  ))}
+                </select>
+                <p id="phone-hint" class="mt-2 text-sm text-slate-600 hidden">
+                  {t('contact.call_this_office')} <a id="phone-link" href="#" class="text-brand-blue font-semibold hover:underline"></a>
+                </p>
+              </div>
+              <div>
+                <label for="message" class="block text-sm font-semibold text-slate-700 mb-1">{t('contact.message')}</label>
+                <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition"></textarea>
+              </div>
+              <button type="submit" class="w-full bg-brand-gold text-slate-900 font-bold py-4 rounded-lg hover:bg-yellow-500 transition-colors shadow-lg">
+                {t('contact.send')}
+              </button>
+            </form>
+          </div>
 
-            <div class="flex items-start gap-4">
-               <div class="w-12 h-12 bg-blue-50 text-brand-blue rounded-lg flex items-center justify-center shrink-0">
-                 <Icon name="mdi:email" class="size-6" />
-               </div>
-               <div>
-                  <h3 class="font-bold text-lg mb-1">Email Us</h3>
-                  <a href="mailto:info@libertysmilecenter.com" class="text-slate-600 hover:text-brand-blue transition-colors">info@libertysmilecenter.com</a>
-               </div>
+          <!-- Office Locations -->
+          <div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-6">{t('contact.office_locations')}</h2>
+            <div class="space-y-4">
+              {locations.map((loc) => (
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                  <h3 class="text-lg font-bold text-brand-blue mb-2">{loc.name}</h3>
+                  <p class="text-slate-600 text-sm mb-2">{loc.address}</p>
+                  <a href={`tel:${loc.phone}`} class="text-brand-blue font-semibold hover:underline text-sm">{loc.phoneDisplay}</a>
+                  <div class="mt-3 h-32 bg-slate-200 rounded-lg overflow-hidden">
+                    <iframe
+                      src={loc.mapUrl}
+                      title={`Map of Liberty Smile Center ${loc.name}`}
+                      width="100%"
+                      height="100%"
+                      style="border:0;"
+                      loading="lazy"
+                      referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
 
-        <!-- Form -->
-        <div class="bg-white p-8 md:p-10 rounded-2xl shadow-lg border border-slate-100">
-          <h3 class="text-2xl font-bold mb-6">Send us a Message</h3>
-          <form class="space-y-6">
-            <div class="grid md:grid-cols-2 gap-6">
-              <div>
-                <label for="name" class="block text-sm font-semibold text-slate-700 mb-2">Name</label>
-                <input type="text" id="name" name="name" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all" placeholder="Your Name" />
-              </div>
-              <div>
-                <label for="phone" class="block text-sm font-semibold text-slate-700 mb-2">Phone</label>
-                <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all" placeholder="(555) 000-0000" />
-              </div>
-            </div>
-            <div>
-              <label for="email" class="block text-sm font-semibold text-slate-700 mb-2">Email</label>
-              <input type="email" id="email" name="email" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all" placeholder="john@example.com" />
-            </div>
-            <div>
-              <label for="message" class="block text-sm font-semibold text-slate-700 mb-2">Message</label>
-              <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-brand-blue focus:ring-2 focus:ring-blue-100 outline-none transition-all" placeholder="How can we help you?"></textarea>
-            </div>
-            <button type="submit" class="w-full py-4 bg-brand-gold text-slate-900 font-bold rounded-lg hover:bg-yellow-500 transition-colors shadow-md">
-              Send Message
-            </button>
-          </form>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
+
+  <Footer />
 </Layout>
+
+<script is:inline define:vars={{ phoneMap }}>
+  const officeSelect = document.getElementById('office');
+  const phoneHint = document.getElementById('phone-hint');
+  const phoneLink = document.getElementById('phone-link');
+
+  if (officeSelect && phoneHint && phoneLink) {
+    officeSelect.addEventListener('change', (e) => {
+      const slug = e.target.value;
+      const phone = phoneMap[slug];
+      if (phone) {
+        const cleanPhone = phone.replace(/\D/g, '');
+        phoneLink.textContent = phone;
+        phoneLink.href = `tel:${cleanPhone}`;
+        phoneHint.classList.remove('hidden');
+      } else {
+        phoneHint.classList.add('hidden');
+      }
+    });
+  }
+</script>

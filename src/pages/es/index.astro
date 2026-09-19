@@ -1,25 +1,23 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro';
-import Footer from '../components/Footer.astro';
-import ServiceFeatures from '../components/ServiceFeatures.astro';
-import CallToAction from '../components/CallToAction.astro';
-import InsuranceBanner from '../components/InsuranceBanner.astro';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import { Image } from 'astro:assets';
-import { locations } from '../data/locations';
-import { services } from '../data/services';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Hero from '../../components/Hero.astro';
+import Footer from '../../components/Footer.astro';
+import ServiceFeatures from '../../components/ServiceFeatures.astro';
+import CallToAction from '../../components/CallToAction.astro';
+import InsuranceBanner from '../../components/InsuranceBanner.astro';
+import { useTranslations, getRelativeLocaleUrl } from '../../i18n/utils';
+import { locations } from '../../data/locations';
+import { servicesES } from '../../data/services';
 
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
+const t = useTranslations('es');
 
 const homeSchema = {
   "@context": "https://schema.org",
   "@type": "Dentist",
   "name": "Liberty Smile Center",
-  "description": "Family dentist serving South Gate, Van Nuys, Whittier, La Habra, and Downey, CA. Comprehensive dental care including general dentistry, orthodontics, dental implants, and cosmetic treatments.",
-  "url": "https://libertysmilecenter.com",
+  "description": "Dentista familiar sirviendo a South Gate, Van Nuys, Whittier, La Habra y Downey, CA. Atención dental integral incluyendo odontología general, ortodoncia, implantes dentales y tratamientos cosméticos.",
+  "url": "https://libertysmilecenter.com/es",
   "image": "https://libertysmilecenter.com/images/dental/main-office.webp",
   "priceRange": "$$",
   "areaServed": locations.map((loc) => loc.name),
@@ -45,7 +43,7 @@ const homeSchema = {
 
 ---
 
-<Layout title="Liberty Smile Center - Top Rated Dentist in South Gate, Van Nuys, Whittier, La Habra & Downey" description="Family dentist in South Gate, Van Nuys, Whittier, La Habra, and Downey, CA. Accepting Medi-Cal and PPO insurance. Same-day appointments, walk-ins welcome. 0% interest financing. Call today!" jsonLd={homeSchema}>
+<Layout title="Liberty Smile Center - Dentista en South Gate, Van Nuys, Whittier, La Habra y Downey" lang="es" description="Dentista familiar en South Gate, Van Nuys, Whittier, La Habra y Downey, CA. Aceptamos Medi-Cal y seguros PPO. Citas el mismo día, se aceptan pacientes sin cita. Financiamiento 0% interés. ¡Llame hoy!" jsonLd={homeSchema}>
   <Header />
 
   <main id="main-content">
@@ -60,13 +58,13 @@ const homeSchema = {
             <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mt-2 mb-6">{t('home.exceptional_care')}</h2>
             <p class="text-slate-600 mb-6 leading-relaxed">{t('home.intro_p1')}</p>
             <p class="text-slate-600 mb-8 leading-relaxed">{t('home.intro_p2')}</p>
-            <a href="/about" class="text-brand-blue font-bold hover:underline">{t('location.learn_more')} →</a>
+            <a href={getRelativeLocaleUrl('es', 'about')} class="text-brand-blue font-bold hover:underline">{t('location.learn_more')} →</a>
           </div>
           <div class="relative">
             
             <img
               src="/images/dental/main-office.webp"
-              alt="Liberty Smile Center Dental Office"
+              alt="Oficina Dental Liberty Smile Center"
               width="800"
               height="600"
               loading="eager"
@@ -149,7 +147,7 @@ const homeSchema = {
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {locations.map((loc) => (
-            <a href={`/${loc.slug}`} class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl hover:bg-white/20 transition-all duration-300 hover:scale-105 border border-white/20">
+            <a href={getRelativeLocaleUrl('es', loc.slug)} class="bg-white/10 backdrop-blur-sm p-6 rounded-2xl hover:bg-white/20 transition-all duration-300 hover:scale-105 border border-white/20">
               <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mb-4 mx-auto text-3xl">
                 🦷
               </div>

@@ -1,24 +1,49 @@
 @import "tailwindcss";
-
 @theme {
-  --color-primary: #006BB6;
-  --color-accent: #E1B363;
-  --color-brand-blue: #006BB6;
-  --color-brand-gold: #E1B363;
-
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --color-primary: #365fb0;
+  --color-accent: #365fb0;
+  --color-brand-blue: #365fb0;
+  --color-brand-gold: #365fb0;
+  --font-sans: 'Inter', system-ui, sans-serif;
 }
-
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-  
-  body {
-    @apply font-sans antialiased text-slate-800 bg-white;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-bold tracking-tight text-brand-blue;
-  }
+  html { scroll-behavior: smooth; scroll-padding-top: 110px; }
+  body { @apply font-sans antialiased text-slate-800; background: #ffffff; }
+  h1,h2,h3,h4,h5,h6 { @apply tracking-tight; color: #203251; }
+  h1,h2 { font-family: var(--font-sans); font-weight: 700; }
+  a,button,input,select,textarea,summary { outline-offset: 5px; }
+  :focus-visible { outline: 3px solid #365fb0; }
+  section { scroll-margin-top: 100px; }
+  ::selection { background: #dceaf8; color: #203251; }
 }
+@layer components {
+  .container { width: 100%; max-width: 1240px; padding-inline: clamp(20px, 4vw, 48px); }
+  .eyebrow { display: block; font: 600 11px/1.5 var(--font-sans); text-transform: uppercase; letter-spacing: .18em; color: #47658b; margin-bottom: 22px; }
+  .button-primary,.button-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 18px; min-height: 52px; padding: 15px 25px; border-radius: 999px; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; font-weight: 600; transition: background .2s, transform .2s; }
+  .button-primary { background: #365fb0; color: white; }
+  .button-primary:hover { background: #244985; transform: translateY(-2px); }
+  .button-secondary { border: 1px solid #9cb4d5; color: #365fb0; }
+  .button-secondary:hover { background: #edf4fb; }
+}
+/* Shared surfaces keep every route in the same visual family. */
+body.bg-white, main .bg-white { background-color: #ffffff; }
+main .bg-slate-50, main .bg-blue-50 { background-color: #f1f6fb; }
+main .rounded-2xl { border-radius: 10px; }
+main .shadow-lg, main .shadow-xl { box-shadow: 0 12px 32px #2032510a; }
+main .text-white :is(h1,h2,h3), footer :is(h2,h3) { color: inherit; }
+main > section.bg-brand-blue { background: #365fb0; }
+main > section.bg-brand-blue h1 { font-size: clamp(2.4rem, 5vw, 4rem); }
+main .prose { line-height: 1.85; }
+main .prose h2,main .prose h3 { margin-block: 1.4em .6em; font-size: 1.5rem; }
+main .prose p { margin-bottom: 1em; }
+main .prose ul { list-style: disc; padding-left: 1.3em; }
+main .prose li { margin-block: .7em; }
+footer.bg-slate-900 { background: #1d2e4c; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,*::before,*::after { animation: none !important; transition: none !important; }
+}
+
+main h2 { text-transform: uppercase; letter-spacing: -.025em; }
+main > section.bg-brand-blue { background: #203251; }
+main .rounded-2xl { border-radius: 20px; }

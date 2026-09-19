@@ -1,69 +1,119 @@
 ---
-import { Icon } from 'astro-icon/components';
+import { getLangFromUrl, useTranslations, getRelativeLocaleUrl } from '../i18n/utils';
+import { locations } from '../data/locations';
+import type { LocationData } from '../data/locations';
 
-const year = new Date().getFullYear();
+interface Props {
+  locationData?: LocationData;
+}
+
+const { locationData } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const currentYear = new Date().getFullYear();
+
+const homeUrl = getRelativeLocaleUrl(lang, '/');
+
+// Build service URLs: location-specific if on a location page, otherwise general
+const generalUrl = locationData 
+  ? getRelativeLocaleUrl(lang, `${locationData.slug}/general-dentistry`)
+  : getRelativeLocaleUrl(lang, 'general-dentistry');
+const implantsUrl = locationData
+  ? getRelativeLocaleUrl(lang, `${locationData.slug}/dental-implants`)
+  : getRelativeLocaleUrl(lang, 'dental-implants');
+const contactUrl = getRelativeLocaleUrl(lang, 'contact');
+const privacyUrl = getRelativeLocaleUrl(lang, 'privacy-policy');
 ---
 
-<footer class="bg-slate-900 text-white pt-16 pb-8">
+<footer class="bg-slate-900 text-white">
+  <div class="pt-16 pb-8">
   <div class="container mx-auto px-4">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-      <!-- Brand -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+      <!-- About -->
       <div>
-        <h3 class="text-xl font-bold text-white mb-6">Liberty Smile Center</h3>
-        <p class="text-slate-400 text-sm leading-relaxed mb-6">
-          Dedicated to fulfilling your dental needs with excellence. Conveniently located in South Gate and Van Nuys.
+        <h3 class="text-xl font-bold mb-4 text-white">{t('footer.about.title')}</h3>
+        <p class="text-gray-300 leading-relaxed mb-4">
+          {t('footer.about.text')}
         </p>
-        <div class="flex gap-4">
-          <a href="#" class="text-slate-400 hover:text-brand-gold transition-colors"><Icon name="mdi:facebook" class="size-6" /></a>
-          <a href="#" class="text-slate-400 hover:text-brand-gold transition-colors"><Icon name="mdi:instagram" class="size-6" /></a>
-          <a href="#" class="text-slate-400 hover:text-brand-gold transition-colors"><Icon name="mdi:twitter" class="size-6" /></a>
-        </div>
       </div>
 
       <!-- Quick Links -->
       <div>
-        <h4 class="text-lg font-bold text-brand-gold mb-6">Quick Links</h4>
-        <ul class="space-y-3 text-sm text-slate-300">
-          <li><a href="/about" class="hover:text-white transition-colors">About Us</a></li>
-          <li><a href="/#services" class="hover:text-white transition-colors">Our Services</a></li>
-          <li><a href="/testimonials" class="hover:text-white transition-colors">Patient Reviews</a></li>
-          <li><a href="/privacy" class="hover:text-white transition-colors">Privacy Policy</a></li>
+        <h3 class="text-xl font-bold mb-4 text-white">{t('footer.quick_links')}</h3>
+        <ul class="space-y-3">
+            <li><a href={homeUrl} class="text-gray-300 hover:text-brand-gold transition-colors py-2 min-h-[48px] flex items-center">{t('nav.home')}</a></li>
+            <li><a href={generalUrl} class="text-gray-300 hover:text-brand-gold transition-colors py-2 min-h-[48px] flex items-center">{t('nav.service.general_dentistry')}</a></li>
+            <li><a href={implantsUrl} class="text-gray-300 hover:text-brand-gold transition-colors py-2 min-h-[48px] flex items-center">{t('nav.service.dental_implants')}</a></li>
+            <li><a href={contactUrl} class="text-gray-300 hover:text-brand-gold transition-colors py-2 min-h-[48px] flex items-center">{t('nav.contact')}</a></li>
         </ul>
       </div>
 
-      <!-- South Gate -->
+      <!-- Contact -->
       <div>
-        <h4 class="text-lg font-bold text-brand-gold mb-6">South Gate</h4>
-        <ul class="space-y-3 text-sm text-slate-300">
-          <li class="flex items-start gap-3">
-             <Icon name="mdi:map-marker" class="size-5 text-brand-blue shrink-0 mt-0.5" />
-             <span>8330 Long Beach Blvd #107<br/>South Gate, CA 90280</span>
-          </li>
-          <li class="flex items-center gap-3">
-            <Icon name="mdi:phone" class="size-5 text-brand-blue shrink-0" />
-            <a href="tel:3235649400" class="hover:text-white">(323) 564-9400</a>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Van Nuys -->
-      <div>
-        <h4 class="text-lg font-bold text-brand-gold mb-6">Van Nuys</h4>
-        <ul class="space-y-3 text-sm text-slate-300">
-          <li class="flex items-start gap-3">
-             <Icon name="mdi:map-marker" class="size-5 text-brand-blue shrink-0 mt-0.5" />
-             <span>6736 Sepulveda Blvd<br/>Van Nuys, CA 91411</span>
-          </li>
-          <li class="flex items-center gap-3">
-             <Icon name="mdi:phone" class="size-5 text-brand-blue shrink-0" />
-             <a href="tel:8187868803" class="hover:text-white">(818) 786-8803</a>
-          </li>
+        <h3 class="text-xl font-bold mb-4 text-white">{t('footer.contact_us')}</h3>
+        <ul class="space-y-4">
+            {locationData ? (
+              // Show single location data
+              <>
+                <li class="flex items-start gap-3">
+                    <span class="text-brand-gold mt-1" aria-hidden="true">📍</span>
+                    <div>
+                        <span class="font-semibold text-white">{locationData.name}</span><br>
+                        <span class="text-gray-300 text-sm">{locationData.address}</span>
+                        <a href={`https://maps.google.com/?q=${encodeURIComponent(locationData.address)}`} target="_blank" class="text-brand-gold hover:underline text-sm">Get Directions</a>
+                    </div>
+                </li>
+                <li class="flex items-center gap-3">
+                    <span class="text-brand-gold" aria-hidden="true">📞</span>
+                    <a href={`tel:${locationData.phone}`} class="text-gray-300 hover:text-white whitespace-nowrap">{locationData.phoneDisplay}</a>
+                </li>
+                <li class="flex items-center gap-3">
+                    <span class="text-brand-gold">✉️</span>
+                    <a href="mailto:info@libertysmilecenter.com" class="min-w-0 [overflow-wrap:anywhere] text-gray-300 hover:text-white">info@libertysmilecenter.com</a>
+                </li>
+                <!-- Small Google Map -->
+                <li class="mt-4">
+                    <div class="bg-gray-200 rounded-lg h-32 overflow-hidden">
+                        <iframe
+                            src={locationData.mapUrl}
+                            width="100%"
+                            height="100%"
+                            style="border:0;"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </li>
+              </>
+            ) : (
+              // Show all locations
+              <>
+                {locations.map(loc => (
+                    <li class="flex items-start gap-3">
+                        <span class="text-brand-gold mt-1" aria-hidden="true">📍</span>
+                        <div>
+                            <a href={getRelativeLocaleUrl(lang, loc.slug)} class="font-semibold text-white hover:text-brand-gold transition-colors">{loc.name}</a><br>
+                            <span class="text-gray-300 text-sm">{loc.address}</span>
+                            <a href={`tel:${loc.phone}`} class="text-gray-300 hover:text-white block text-sm whitespace-nowrap">{loc.phoneDisplay}</a>
+                        </div>
+                    </li>
+                ))}
+                <li class="flex items-center gap-3">
+                    <span class="text-brand-gold">✉️</span>
+                    <a href="mailto:info@libertysmilecenter.com" class="min-w-0 [overflow-wrap:anywhere] text-gray-300 hover:text-white">info@libertysmilecenter.com</a>
+                </li>
+              </>
+            )}
         </ul>
       </div>
     </div>
 
-    <div class="border-t border-slate-800 pt-8 text-center text-sm text-slate-500">
-      <p>&copy; {year} Liberty Smile Center. All rights reserved.</p>
+    <div class="border-t border-gray-600 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+      <p>&copy; {currentYear} Liberty Smile Center. {t('footer.rights')}</p>
+      <a href={privacyUrl} class="hover:text-brand-gold transition-colors mt-2 md:mt-0 py-2 min-h-[48px] flex items-center">{t('footer.privacy')}</a>
     </div>
+  </div>
   </div>
 </footer>

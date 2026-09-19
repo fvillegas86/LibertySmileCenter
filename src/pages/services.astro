@@ -1,0 +1,55 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import CallToAction from '../components/CallToAction.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { services } from '../data/services';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const pageServices = services.map((svc) => ({
+  title: svc.name,
+  description: svc.description,
+  icon: svc.icon,
+  image: svc.image,
+  href: `/${svc.slug}`
+}));
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "MedicalBusiness",
+  "name": "Liberty Smile Center - Dental Services",
+  "description": "Comprehensive dental services including general dentistry, dental implants, orthodontics, cosmetic dentistry, and oral surgery.",
+  "url": "https://libertysmilecenter.com/services"
+};
+---
+
+<Layout title="Our Services - Liberty Smile Center" description="Comprehensive dental services including general dentistry, dental implants, orthodontics, cosmetic dentistry, and oral surgery. 0% interest financing available." jsonLd={schema}>
+  <Header />
+
+  <main id="main-content">
+    <section class="bg-brand-blue py-12 md:py-16 text-white">
+      <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl font-bold mb-4">{t('home.services_title')}</h1>
+        <p class="text-xl text-white/90">{t('home.services_subtitle')}</p>
+      </div>
+    </section>
+
+    <section class="py-12 md:py-20 bg-slate-50">
+      <div class="container mx-auto px-4">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center max-w-5xl mx-auto">
+          {pageServices.map((service) => (
+            <ServiceCard {...service} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <CallToAction />
+  </main>
+
+  <Footer />
+</Layout>
