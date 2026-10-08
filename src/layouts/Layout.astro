@@ -34,6 +34,13 @@ const ogLocale = detectedLang === 'es' ? 'es_US' : 'en_US';
 const ogLocaleAlternate = detectedLang === 'es' ? 'en_US' : 'es_US';
 
 const jsonLdItems = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+
+// Compute EN/ES alternates for hreflang
+const isEsPath = currentPath === '/es' || currentPath.startsWith('/es/');
+const enPath = isEsPath ? (currentPath.replace(/^\/es/, '') || '/') : currentPath;
+const esPath = isEsPath ? currentPath : `/es${currentPath === '/' ? '/' : currentPath}`;
+const enUrl = `${baseUrl}${enPath}`;
+const esUrl = `${baseUrl}${esPath}`;
 ---
 
 <!doctype html>
@@ -55,11 +62,9 @@ const jsonLdItems = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 
 		<title>{title}</title>
 		<link rel="canonical" href={currentUrl} />
-		{(currentPath === '/' || currentPath === '/es/' || currentPath === '/es') && <>
-          <link rel="alternate" hreflang="en" href={`${baseUrl}/`} />
-          <link rel="alternate" hreflang="es" href={`${baseUrl}/es/`} />
-          <link rel="alternate" hreflang="x-default" href={`${baseUrl}/`} />
-        </>}
+		<link rel="alternate" hreflang="en" href={enUrl} />
+		<link rel="alternate" hreflang="es" href={esUrl} />
+		<link rel="alternate" hreflang="x-default" href={enUrl} />
 
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content={type} />

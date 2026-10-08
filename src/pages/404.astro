@@ -1,0 +1,43 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getLangFromUrl } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const es = lang === 'es';
+---
+
+<Layout
+	title={es ? 'Página No Encontrada - Liberty Smile Center' : 'Page Not Found - Liberty Smile Center'}
+	description={es ? 'La página que busca no existe.' : 'The page you are looking for does not exist.'}
+	noindex={true}
+>
+	<Header />
+
+	<main id="main-content">
+		<section class="py-24 md:py-32 bg-brand-blue text-white text-center">
+			<div class="container mx-auto px-4">
+				<p class="text-8xl font-bold text-brand-gold mb-6">404</p>
+				<h1 class="text-4xl md:text-5xl font-bold mb-6">
+					{es ? 'Página No Encontrada' : 'Page Not Found'}
+				</h1>
+				<p class="text-xl text-white/90 mb-10 max-w-xl mx-auto">
+					{es
+						? 'La página que busca no existe o ha sido movida. Permítanos ayudarle a encontrar lo que necesita.'
+						: "The page you're looking for doesn't exist or has been moved. Let us help you find what you need."}
+				</p>
+				<div class="flex flex-col sm:flex-row gap-4 justify-center">
+					<a href={es ? '/es' : '/'} class="inline-block bg-white text-brand-blue px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors">
+						{es ? 'Ir al Inicio' : 'Go Home'}
+					</a>
+					<a href={es ? '/es/appointment' : '/appointment'} class="inline-block bg-brand-gold text-slate-900 px-8 py-3 rounded-full font-bold hover:bg-yellow-500 transition-colors">
+						{es ? 'Hacer una Cita' : 'Book an Appointment'}
+					</a>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<Footer />
+</Layout>

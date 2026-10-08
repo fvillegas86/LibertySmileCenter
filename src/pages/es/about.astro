@@ -1,0 +1,75 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import CallToAction from '../../components/CallToAction.astro';
+import { locations } from '../../data/locations';
+
+const aboutSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "name": "Acerca de Liberty Smile Center",
+  "description": "Conozca Liberty Smile Center, una práctica dental familiar sirviendo a South Gate, Van Nuys, Whittier, La Habra y Downey, CA.",
+  "url": "https://libertysmilecenter.com/es/about"
+};
+---
+
+<Layout title="Acerca de Liberty Smile Center - Dentista en el Sur de California" lang="es" description="Liberty Smile Center es una práctica dental familiar sirviendo a South Gate, Van Nuys, Whittier, La Habra y Downey, CA. Más de 10 años de experiencia. Aceptamos Medi-Cal y PPO. Financiamiento 0% interés." jsonLd={aboutSchema}>
+  <Header />
+
+  <main id="main-content">
+    <section class="relative py-24 lg:py-32 flex items-center justify-center overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-black/50 z-10"></div>
+        <img
+          src="/images/dental/main-office.webp"
+          alt="Oficina Dental Liberty Smile Center"
+          width="1600"
+          height="900"
+          loading="eager"
+          decoding="async"
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <div class="container mx-auto px-4 relative z-20 text-center text-white">
+        <div class="max-w-3xl mx-auto">
+          <h1 class="text-4xl md:text-5xl font-bold mb-6">Acerca de Liberty Smile Center</h1>
+          <p class="text-xl md:text-2xl text-gray-100 mb-4">Su hogar dental de confianza en el sur de California</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-12 md:py-20 bg-white">
+      <div class="container mx-auto px-4 max-w-4xl">
+        <div class="prose lg:prose-xl mx-auto">
+          <h2>Nuestra Misión</h2>
+          <p>En Liberty Smile Center, creemos que una sonrisa saludable es la base del bienestar general. Nuestro equipo experimentado está dedicado a proporcionar atención dental personalizada y de alta calidad en un ambiente cálido y acogedor. Con cinco ubicaciones convenientes en el sur de California, facilitamos que usted y su familia reciban la atención dental que merecen.</p>
+
+          <h2>Nuestra Historia</h2>
+          <p>Durante más de 10 años, Liberty Smile Center ha estado sirviendo a pacientes en South Gate, Van Nuys, Whittier, La Habra y Downey. Lo que comenzó como una sola oficina ha crecido hasta convertirse en una red de cinco prácticas dentales, cada una comprometida con el mismo estándar de excelencia.</p>
+
+          <h2>Lo Que Nos Distingue</h2>
+          <ul>
+            <li><strong>Atención Integral:</strong> Desde limpiezas preventivas hasta implantes dentales avanzados y ortodoncia, proporcionamos todos los servicios que necesita bajo un mismo techo.</li>
+            <li><strong>Enfoque en el Paciente:</strong> Priorizamos la transparencia y el bienestar del paciente, asegurando un plan de tratamiento completo y detallado con divulgación total antes de cualquier procedimiento.</li>
+            <li><strong>Seguros y Financiamiento:</strong> Aceptamos Medi-Cal y la mayoría de los planes de seguro PPO. ¿Sin seguro? Ofrecemos opciones de financiamiento con 0% de interés.</li>
+            <li><strong>Conveniencia:</strong> Citas sin previa cita y servicios de emergencia el mismo día disponibles en las cinco ubicaciones.</li>
+            <li><strong>Equipo Experimentado:</strong> Nuestros dentistas y personal aportan más de una década de experiencia.</li>
+          </ul>
+
+          <h2>Nuestras Ubicaciones</h2>
+          <p>Servimos con orgullo a pacientes en todo el sur de California con cinco oficinas convenientes:</p>
+          <ul>
+            {locations.map((loc) => (
+              <li><strong>{loc.name}:</strong> {loc.address} · {loc.phoneDisplay}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <CallToAction />
+  </main>
+
+  <Footer />
+</Layout>

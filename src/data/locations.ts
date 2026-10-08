@@ -27,14 +27,14 @@ export const locations: LocationData[] = [
     slug: 'south-gate',
     title: 'Dentist South Gate CA | Liberty Smile Center',
     description:
-      'Top-rated dentist in South Gate, CA. Dental Implants, Braces, Cosmetic & Oral Surgery. Accepts Medi-Cal and PPO. 0% Interest Financing. Call (323) 564-9400.',
+      'Top-rated dentist in South Gate, CA. Dental Implants, Braces, Cosmetic & Oral Surgery. Accepts Medi-Cal and PPO. 0% Interest Financing. Call (833) 496-0005.',
     address: '8330 Long Beach Blvd #107, South Gate, CA 90280',
     streetAddress: '8330 Long Beach Blvd #107',
     city: 'South Gate',
     state: 'CA',
     postalCode: '90280',
-    phone: '3235649400',
-    phoneDisplay: '(323) 564-9400',
+    phone: '8334960005',
+    phoneDisplay: '(833) 496-0005',
     mapUrl:
       'https://www.google.com/maps?q=Liberty+Smile+Center+8330+Long+Beach+Blvd+South+Gate+CA+90280&output=embed',
     geo: { latitude: '33.966953', longitude: '-118.212711' },
@@ -50,9 +50,9 @@ export const locations: LocationData[] = [
     ],
     services: ['General Dentistry', 'Dental Implants', 'Orthodontics', 'Cosmetic Dentistry', 'Oral Surgery', 'Emergency Dentistry'],
     faqs: [
-      { question: 'Does Liberty Smile Center in South Gate accept Medi-Cal?', answer: 'Yes, we accept Medi-Cal and most PPO insurance plans. Contact our South Gate office at (323) 564-9400 to verify your coverage.' },
+      { question: 'Does Liberty Smile Center in South Gate accept Medi-Cal?', answer: 'Yes, we accept Medi-Cal and most PPO insurance plans. Contact our South Gate office at (833) 496-0005 to verify your coverage.' },
       { question: 'Do you offer dental implants in South Gate?', answer: 'Yes. Our South Gate office provides full dental implant services, from single-tooth implants to full-arch restoration. We also offer 0% interest financing.' },
-      { question: 'How do I schedule an appointment at the South Gate location?', answer: 'You can call us directly at (323) 564-9400 or use our online contact form to request an appointment. We offer flexible scheduling, including Saturdays.' },
+      { question: 'How do I schedule an appointment at the South Gate location?', answer: 'You can call us directly at (833) 496-0005 or use our online contact form to request an appointment. We offer flexible scheduling, including Saturdays.' },
     ],
   },
   {
@@ -60,14 +60,14 @@ export const locations: LocationData[] = [
     slug: 'van-nuys',
     title: 'Dentist Van Nuys CA | Liberty Smile Center',
     description:
-      'Expert dentist in Van Nuys, CA. Dental Implants, Braces, Cosmetic Dentistry & Oral Surgery. 0% Interest Financing. Accepts Medi-Cal & PPO. Call (818) 786-8803.',
+      'Expert dentist in Van Nuys, CA. Dental Implants, Braces, Cosmetic Dentistry & Oral Surgery. 0% Interest Financing. Accepts Medi-Cal & PPO. Call (855) 598-6262.',
     address: '6736 Sepulveda Blvd, Van Nuys, CA 91411',
     streetAddress: '6736 Sepulveda Blvd',
     city: 'Van Nuys',
     state: 'CA',
     postalCode: '91411',
-    phone: '8187868803',
-    phoneDisplay: '(818) 786-8803',
+    phone: '8555986262',
+    phoneDisplay: '(855) 598-6262',
     mapUrl:
       'https://www.google.com/maps?q=Liberty+Smile+Center+6736+Sepulveda+Blvd+Van+Nuys+CA+91411&output=embed',
     geo: { latitude: '34.201', longitude: '-118.465' },
@@ -83,7 +83,7 @@ export const locations: LocationData[] = [
     ],
     services: ['General Dentistry', 'Dental Implants', 'Orthodontics', 'Cosmetic Dentistry', 'Oral Surgery', 'Emergency Dentistry'],
     faqs: [
-      { question: 'Does Liberty Smile Center in Van Nuys accept Medi-Cal?', answer: 'Yes, we accept Medi-Cal and most PPO insurance plans. Contact our Van Nuys office at (818) 786-8803 to verify your coverage.' },
+      { question: 'Does Liberty Smile Center in Van Nuys accept Medi-Cal?', answer: 'Yes, we accept Medi-Cal and most PPO insurance plans. Contact our Van Nuys office at (855) 598-6262 to verify your coverage.' },
       { question: 'Do you offer braces and Invisalign in Van Nuys?', answer: 'Yes. Our Van Nuys office provides traditional braces and clear aligner orthodontic treatment for patients of all ages. Free consultations are available.' },
       { question: 'Is there parking at the Van Nuys dental office?', answer: 'Yes, our Van Nuys location on Sepulveda Blvd offers convenient on-site parking for all patients.' },
     ],

@@ -1,0 +1,140 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Header from '../../../components/Header.astro';
+import Hero from '../../../components/Hero.astro';
+import Footer from '../../../components/Footer.astro';
+import InsuranceBanner from '../../../components/InsuranceBanner.astro';
+import CurrentPromotions from '../../../components/CurrentPromotions.astro';
+import CallToAction from '../../../components/CallToAction.astro';
+import { locations, type LocationData } from '../../../data/locations';
+import { useTranslations } from '../../../i18n/utils';
+
+const t = useTranslations('es');
+
+export async function getStaticPaths() {
+  return locations.map((loc) => ({
+    params: { location: loc.slug },
+    props: { locationData: loc }
+  }));
+}
+
+const { locationData }: { locationData: LocationData } = Astro.props;
+
+const offersSchema = {
+  "@context": "https://schema.org",
+  "@type": "OfferCatalog",
+  "name": `Ofertas y Promociones de Liberty Smile Center - ${locationData.name}`,
+  "itemListElement": [
+    {
+      "@type": "Offer",
+      "name": "Examen y Consulta Dental para Nuevos Pacientes",
+      "description": "Examen dental integral y consulta con nuestros dentistas experimentados",
+      "price": "49",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "seller": { "@type": "LocalBusiness", "name": `Liberty Smile Center - ${locationData.name}`, "telephone": `+1${locationData.phone}` },
+      "category": "Dental Services"
+    },
+    {
+      "@type": "Offer",
+      "name": "Limpieza Dental para Nuevos Pacientes",
+      "description": "Limpieza dental profesional para nuevos pacientes",
+      "price": "179",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "seller": { "@type": "LocalBusiness", "name": `Liberty Smile Center - ${locationData.name}`, "telephone": `+1${locationData.phone}` },
+      "category": "Dental Services"
+    },
+    {
+      "@type": "Offer",
+      "name": "Blanqueamiento Dental",
+      "description": "Tratamiento profesional de blanqueamiento dental",
+      "price": "380",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock",
+      "seller": { "@type": "LocalBusiness", "name": `Liberty Smile Center - ${locationData.name}`, "telephone": `+1${locationData.phone}` },
+      "category": "Dental Services"
+    }
+  ]
+};
+---
+
+<Layout title={`Ofertas - Liberty Smile Center ${locationData.name}`} lang="es" description={`Especiales para nuevos pacientes y promociones actuales en Liberty Smile Center en ${locationData.name}. Ahorre en atención dental con nuestras ofertas exclusivas.`} jsonLd={offersSchema}>
+  <Header />
+
+  <main id="main-content">
+    <Hero
+      title={`Ofertas <span class="text-white italic">Especiales</span> y Promociones en ${locationData.name}`}
+      subtitle={`Aproveche nuestros especiales para nuevos pacientes y promociones actuales en nuestra oficina de ${locationData.name}. Ahorre en atención dental de calidad.`}
+    />
+
+    <section class="py-8 bg-brand-blue text-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div>
+            <h2 class="text-2xl font-bold">Ubicación de {locationData.name}</h2>
+            <p class="text-white/90">{locationData.address}</p>
+          </div>
+          <a href={`tel:${locationData.phone}`} class="bg-white text-brand-blue px-6 py-3 rounded-full font-bold hover:bg-gray-100 transition-colors text-center">
+            Llamar {locationData.phoneDisplay}
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-12 md:py-20 bg-brand-blue text-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">{t('specials.new_patient_title')} en {locationData.name}</h2>
+          <p class="text-xl opacity-90">¡Bienvenido a nuestra oficina de {locationData.name}! Aquí están nuestras ofertas exclusivas para nuevos pacientes:</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/20 hover:bg-white/20 transition-all">
+            <div class="text-5xl mb-4" aria-hidden="true">🦷</div>
+            <h3 class="text-2xl font-bold mb-3">{t('specials.free_consultation')}</h3>
+            <p class="text-white/90 mb-4">{t('specials.free_consultation_desc')}</p>
+            <div class="text-3xl font-bold text-yellow-300 mb-4">$49</div>
+            <p class="text-sm text-white/70">{t('specials.new_patients_only')}</p>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/20 hover:bg-white/20 transition-all">
+            <div class="text-5xl mb-4" aria-hidden="true">✨</div>
+            <h3 class="text-2xl font-bold mb-3">{t('specials.dental_cleaning')}</h3>
+            <p class="text-white/90 mb-4">{t('specials.dental_cleaning_desc')}</p>
+            <div class="text-3xl font-bold text-yellow-300 mb-4">$179</div>
+            <p class="text-sm text-white/70">{t('specials.regular_price')} $299. {t('specials.new_patients_only')}</p>
+          </div>
+
+          <div class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/20 hover:bg-white/20 transition-all">
+            <div class="text-5xl mb-4">📸</div>
+            <h3 class="text-2xl font-bold mb-3">{t('specials.teeth_whitening')}</h3>
+            <p class="text-white/90 mb-4">{t('specials.teeth_whitening_desc')}</p>
+            <div class="text-3xl font-bold text-yellow-300 mb-4">$380</div>
+            <p class="text-sm text-white/70">{t('specials.regular_price')} $450. {t('specials.new_patients_only')}</p>
+          </div>
+        </div>
+
+        <div class="text-center mt-12">
+          <a href={`tel:${locationData.phone}`} class="inline-block bg-white text-brand-blue px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-colors shadow-lg">
+            Llame Ahora {locationData.phoneDisplay}
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <CurrentPromotions />
+
+    <InsuranceBanner />
+
+    <CallToAction
+      title={t('specials.ready_to_save')}
+      text={`Programe su cita hoy en nuestra oficina de ${locationData.name} para aprovechar nuestros especiales y promociones actuales.`}
+      btnAppt="Hacer Cita"
+      btnCallTxt="Llamar"
+      locationData={locationData}
+    />
+  </main>
+
+  <Footer locationData={locationData} />
+</Layout>

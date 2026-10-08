@@ -1,26 +1,25 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import { locations } from '../data/locations';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { useTranslations } from '../../i18n/utils';
+import { locations } from '../../data/locations';
 
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
+const t = useTranslations('es');
 
 const contactSchema = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
-  "name": "Contact Liberty Smile Center",
-  "description": "Contact Liberty Smile Center. Reach out to schedule an appointment or ask questions at any of our 5 locations.",
-  "url": "https://libertysmilecenter.com/contact"
+  "name": "Contacto Liberty Smile Center",
+  "description": "Contacte a Liberty Smile Center. Programe una cita o haga preguntas en cualquiera de nuestras 5 ubicaciones.",
+  "url": "https://libertysmilecenter.com/es/contact"
 };
 
 const phoneMap: Record<string, string> = {};
 locations.forEach((loc) => { phoneMap[loc.slug] = loc.phoneDisplay; });
 ---
 
-<Layout title="Contact Us - Liberty Smile Center" description="Contact Liberty Smile Center. Reach out to schedule an appointment or ask questions at any of our 5 locations across Southern California." jsonLd={contactSchema}>
+<Layout title="Contáctenos - Liberty Smile Center" lang="es" description="Contacte a Liberty Smile Center. Programe una cita o haga preguntas en cualquiera de nuestras 5 ubicaciones en el sur de California." jsonLd={contactSchema}>
   <Header />
 
   <main id="main-content">
@@ -35,7 +34,6 @@ locations.forEach((loc) => { phoneMap[loc.slug] = loc.phoneDisplay; });
       <div class="container mx-auto px-4 max-w-6xl">
         <div class="grid lg:grid-cols-2 gap-12">
 
-          <!-- Form -->
           <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-100">
             <h2 class="text-2xl font-bold text-slate-900 mb-6">{t('contact.send_message')}</h2>
             <form id="contactForm" class="space-y-5">
@@ -73,7 +71,6 @@ locations.forEach((loc) => { phoneMap[loc.slug] = loc.phoneDisplay; });
             </form>
           </div>
 
-          <!-- Office Locations -->
           <div>
             <h2 class="text-2xl font-bold text-slate-900 mb-6">{t('contact.office_locations')}</h2>
             <div class="space-y-4">
@@ -85,7 +82,7 @@ locations.forEach((loc) => { phoneMap[loc.slug] = loc.phoneDisplay; });
                   <div class="mt-3 h-32 bg-slate-200 rounded-lg overflow-hidden">
                     <iframe
                       src={loc.mapUrl}
-                      title={`Map of Liberty Smile Center ${loc.name}`}
+                      title={`Mapa de Liberty Smile Center ${loc.name}`}
                       width="100%"
                       height="100%"
                       style="border:0;"
@@ -145,7 +142,7 @@ locations.forEach((loc) => { phoneMap[loc.slug] = loc.phoneDisplay; });
       const originalText = contactSubmitBtn.textContent;
 
       contactSubmitBtn.disabled = true;
-      contactSubmitBtn.textContent = 'Sending...';
+      contactSubmitBtn.textContent = 'Enviando...';
 
       try {
         const formData = new FormData(contactForm);
@@ -161,8 +158,8 @@ locations.forEach((loc) => { phoneMap[loc.slug] = loc.phoneDisplay; });
 
         if (response.ok) {
           Swal.fire({
-            title: 'Message Sent!',
-            text: 'Thank you for contacting us. Our team will get back to you shortly.',
+            title: '¡Mensaje Enviado!',
+            text: 'Gracias por contactarnos. Nuestro equipo le responderá pronto.',
             icon: 'success',
             confirmButtonColor: '#006BB6',
           });
@@ -175,7 +172,7 @@ locations.forEach((loc) => { phoneMap[loc.slug] = loc.phoneDisplay; });
         console.error('Error:', error);
         Swal.fire({
           title: 'Error',
-          text: 'There was a problem sending your message. Please try again later or call us.',
+          text: 'Hubo un problema al enviar su mensaje. Inténtelo de nuevo más tarde o llámenos.',
           icon: 'error',
           confirmButtonColor: '#006BB6',
         });

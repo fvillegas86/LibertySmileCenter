@@ -1,0 +1,54 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations('es');
+---
+
+<Layout title="Política de Privacidad - Liberty Smile Center" lang="es" description="Política de Privacidad de Liberty Smile Center" noindex={true}>
+  <Header />
+
+  <main id="main-content">
+    <section class="bg-brand-blue py-12 text-white">
+      <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl font-bold">{t('footer.privacy')}</h1>
+      </div>
+    </section>
+
+    <section class="py-12 md:py-20 bg-white">
+      <div class="container mx-auto px-4 max-w-3xl prose lg:prose-xl">
+        <h2>Política de Privacidad</h2>
+        <p>Última actualización: {new Date().getFullYear()}</p>
+
+        <p>Liberty Smile Center ("nosotros") está comprometido a proteger su privacidad. Esta Política de Privacidad explica cómo recopilamos, usamos y divulgamos información cuando utiliza nuestro sitio web y servicios.</p>
+
+        <h3>Información que Recopilamos</h3>
+        <p>Recopilamos información que usted nos proporciona directamente, como su nombre, dirección de correo electrónico, número de teléfono y cualquier información que incluya en mensajes o solicitudes de citas enviadas a través de nuestro sitio web.</p>
+
+        <h3>Cómo Usamos Su Información</h3>
+        <ul>
+          <li>Para responder a sus consultas y programar citas</li>
+          <li>Para proporcionar servicios dentales y comunicarnos con usted sobre su atención</li>
+          <li>Para enviarle información importante sobre su tratamiento</li>
+          <li>Para cumplir con obligaciones legales</li>
+        </ul>
+
+        <h3>Compartir Información</h3>
+        <p>No vendemos ni alquilamos su información personal. Podemos compartir su información con proveedores de servicios externos que nos ayudan a operar nuestro negocio, sujeto a obligaciones de confidencialidad.</p>
+
+        <h3>Seguridad de Datos</h3>
+        <p>Implementamos medidas de seguridad razonables para proteger su información personal. Sin embargo, ningún método de transmisión por internet es completamente seguro.</p>
+
+        <h3>Sus Derechos</h3>
+        <p>Usted tiene derecho a acceder, corregir o eliminar su información personal. Para ejercer estos derechos, contáctenos en info@libertysmilecenter.com.</p>
+
+        <h3>Contáctenos</h3>
+        <p>Si tiene preguntas sobre esta Política de Privacidad, contáctenos en info@libertysmilecenter.com o llame al (833) 496-0005.</p>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
