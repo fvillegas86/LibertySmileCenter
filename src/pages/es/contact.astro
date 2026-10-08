@@ -4,6 +4,7 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { useTranslations } from '../../i18n/utils';
 import { locations } from '../../data/locations';
+import { TURNSTILE_SITE_KEY, FORMS_WEBHOOK_URL } from '../../data/site';
 
 const t = useTranslations('es');
 
@@ -19,7 +20,7 @@ const phoneMap: Record<string, string> = {};
 locations.forEach((loc) => { phoneMap[loc.slug] = loc.phoneDisplay; });
 ---
 
-<Layout title="Contáctenos - Liberty Smile Center" lang="es" description="Contacte a Liberty Smile Center. Programe una cita o haga preguntas en cualquiera de nuestras 5 ubicaciones en el sur de California." jsonLd={contactSchema}>
+<Layout title="Contáctenos - Liberty Smile Center" lang="es" description="Contacte a Liberty Smile Center. Programe una cita o haga preguntas en cualquiera de nuestras 5 ubicaciones en el sur de California." jsonLd={contactSchema} turnstile={true}>
   <Header />
 
   <main id="main-content">
@@ -65,6 +66,7 @@ locations.forEach((loc) => { phoneMap[loc.slug] = loc.phoneDisplay; });
                 <label for="message" class="block text-sm font-semibold text-slate-700 mb-1">{t('contact.message')}</label>
                 <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition"></textarea>
               </div>
+              <div class="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-callback="onTurnstileSuccess"></div>
               <button type="submit" id="contactSubmitBtn" class="w-full bg-brand-gold text-slate-900 font-bold py-4 rounded-lg hover:bg-yellow-500 transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
                 {t('contact.send')}
               </button>
@@ -103,7 +105,7 @@ locations.forEach((loc) => { phoneMap[loc.slug] = loc.phoneDisplay; });
   <Footer />
 </Layout>
 
-<script is:inline define:vars={{ phoneMap }}>
+<script is:inline define:vars={{ phoneMap, webhookUrl: FORMS_WEBHOOK_URL }}>
   const officeSelect = document.getElementById('office');
   const phoneHint = document.getElementById('phone-hint');
   const phoneLink = document.getElementById('phone-link');
@@ -125,7 +127,9 @@ locations.forEach((loc) => { phoneMap[loc.slug] = loc.phoneDisplay; });
 
   const contactForm = document.getElementById('contactForm');
   const contactSubmitBtn = document.getElementById('contactSubmitBtn');
-  const WEBHOOK_URL = 'https://ain8n.innovexitsolutions.com/webhook/liberty-smile-center-contact';
+  const WEBHOOK_URL = webhookUrl;
+  let turnstileToken = null;
+  window.onTurnstileSuccess = (token) => { turnstileToken = token; };
 
   const loadSwal = () => new Promise((resolve) => {
     if (window.Swal) return resolve(window.Swal);
@@ -141,12 +145,23 @@ locations.forEach((loc) => { phoneMap[loc.slug] = loc.phoneDisplay; });
       const Swal = await loadSwal();
       const originalText = contactSubmitBtn.textContent;
 
+      if (!turnstileToken) {
+        Swal.fire({
+          title: 'Verificación requerida',
+          text: 'Complete la verificación de seguridad antes de enviar.',
+          icon: 'warning',
+          confirmButtonColor: '#006BB6',
+        });
+        return;
+      }
+
       contactSubmitBtn.disabled = true;
       contactSubmitBtn.textContent = 'Enviando...';
 
       try {
         const formData = new FormData(contactForm);
         const data = Object.fromEntries(formData.entries());
+        data.turnstileToken = turnstileToken;
         data.formType = 'contact';
         data.domain = 'libertysmilecenter.com';
 
@@ -179,6 +194,8 @@ locations.forEach((loc) => { phoneMap[loc.slug] = loc.phoneDisplay; });
       } finally {
         contactSubmitBtn.disabled = false;
         contactSubmitBtn.textContent = originalText;
+        turnstileToken = null;
+        if (window.turnstile) window.turnstile.reset();
       }
     });
   }

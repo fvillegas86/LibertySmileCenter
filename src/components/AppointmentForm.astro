@@ -1,6 +1,7 @@
 ---
 import { locations } from '../data/locations';
 import { getLangFromUrl } from '../i18n/utils';
+import { TURNSTILE_SITE_KEY, FORMS_WEBHOOK_URL } from '../data/site';
 
 export interface Props {
   locationSlug?: string;
@@ -85,6 +86,8 @@ const es = getLangFromUrl(Astro.url) === 'es';
     💡 <strong>{es ? 'Financiamiento 0% Disponible' : '0% Financing Available'}</strong> — {es ? 'Pregunte por planes de pago flexibles que se ajusten a su presupuesto.' : 'Ask us about flexible payment plans to fit your budget.'}
   </p>
 
+  <div class="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-callback="onTurnstileSuccess"></div>
+
   <button
     type="submit"
     id="submitBtn"
@@ -98,16 +101,21 @@ const es = getLangFromUrl(Astro.url) === 'es';
 </form>
 
 <script is:inline define:vars={{
+  webhookUrl: FORMS_WEBHOOK_URL,
   msgSending: es ? 'Enviando...' : 'Sending...',
   msgSuccessTitle: es ? '¡Solicitud Enviada!' : 'Request Sent!',
   msgSuccessText: es ? 'Gracias por su solicitud. Nuestro equipo le contactará pronto para confirmar su cita.' : 'Thank you for your request. Our team will contact you shortly to confirm your appointment.',
   msgErrorTitle: 'Error',
   msgErrorText: es ? 'Hubo un problema al enviar su solicitud. Inténtelo de nuevo más tarde o llámenos.' : 'There was a problem sending your request. Please try again later or call us.',
+  msgVerifyTitle: es ? 'Verificación requerida' : 'Please verify',
+  msgVerifyText: es ? 'Complete la verificación de seguridad antes de enviar.' : 'Complete the security check before submitting.',
   msgSubmit: es ? 'Solicitar Cita' : 'Request Appointment',
 }}>
   const appointmentForm = document.getElementById('appointmentForm');
   const submitBtn = document.getElementById('submitBtn');
-  const WEBHOOK_URL = 'https://ain8n.innovexitsolutions.com/webhook/liberty-smile-center-contact';
+  const WEBHOOK_URL = webhookUrl;
+  let turnstileToken = null;
+  window.onTurnstileSuccess = (token) => { turnstileToken = token; };
 
   const loadSwal = () => new Promise((resolve) => {
     if (window.Swal) return resolve(window.Swal);
@@ -121,12 +129,23 @@ const es = getLangFromUrl(Astro.url) === 'es';
     e.preventDefault();
     const Swal = await loadSwal();
 
+    if (!turnstileToken) {
+      Swal.fire({
+        title: msgVerifyTitle,
+        text: msgVerifyText,
+        icon: 'warning',
+        confirmButtonColor: '#006BB6',
+      });
+      return;
+    }
+
     submitBtn.disabled = true;
     submitBtn.textContent = msgSending;
 
     try {
       const formData = new FormData(appointmentForm);
       const data = Object.fromEntries(formData.entries());
+      data.turnstileToken = turnstileToken;
       data.formType = 'appointment';
       data.domain = 'libertysmilecenter.com';
 
@@ -158,6 +177,8 @@ const es = getLangFromUrl(Astro.url) === 'es';
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = msgSubmit;
+      turnstileToken = null;
+      if (window.turnstile) window.turnstile.reset();
     }
   });
 </script>
