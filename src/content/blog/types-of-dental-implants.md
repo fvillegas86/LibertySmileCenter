@@ -6,7 +6,7 @@ author: "Liberty Smile Center"
 tags: ["dental implants", "oral surgery", "tooth replacement"]
 ---
 
-Missing teeth affect more than just your smile. They can impact your ability to chew comfortably, your speech, and even the long-term health of your jawbone. Dental implants are widely considered the gold standard for tooth replacement because they look, feel, and function like natural teeth. At Liberty Smile Center, our experienced oral surgery team places implants at all five of our locations in South Gate, Van Nuys, Whittier, La Habra, and Downey.
+Missing teeth affect more than just your smile. They can impact your ability to chew comfortably, your speech, and even the long-term health of your jawbone. Dental implants are widely considered the gold standard for tooth replacement because they look, feel, and function like natural teeth. At Liberty Smile Center, our experienced oral surgery team places implants at all six of our locations in Baldwin Park, Downey, La Habra, South Gate, Van Nuys, and Whittier.
 
 ## What Is a Dental Implant?
 

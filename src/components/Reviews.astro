@@ -2,13 +2,49 @@
 import { getLangFromUrl } from '../i18n/utils';
 
 interface Props {
-  location?: 'south-gate' | 'van-nuys' | 'whittier' | 'la-habra' | 'downey';
+  location?: 'south-gate' | 'van-nuys' | 'whittier' | 'la-habra' | 'downey' | 'baldwin-park';
 }
 
 const { location } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 
 const reviewsByLocation: Record<string, { en: Array<{ name: string; stars: number; text: string }>; es: Array<{ name: string; stars: number; text: string }> }> = {
+  'baldwin-park': {
+    en: [
+      {
+        name: 'Angela Rios',
+        stars: 5,
+        text: "The Baldwin Park office on Maine Ave is wonderful. I came in for a broken tooth and they saw me the same day. The dentist explained all my options clearly and never pressured me into anything. So glad I found this office!",
+      },
+      {
+        name: 'Marcus Lee',
+        stars: 5,
+        text: "Got my dental implants done here and the whole process was smooth from start to finish. The 0% financing made it actually affordable, and the staff checked in on me after the procedure. Highly recommend to anyone in the San Gabriel Valley.",
+      },
+      {
+        name: 'Sofia Herrera',
+        stars: 5,
+        text: "My whole family comes here now. The staff is bilingual and so patient with my kids, and they handled all the insurance paperwork for us. Clean office, short waits, and friendly faces every visit.",
+      },
+    ],
+    es: [
+      {
+        name: 'Angela Rios',
+        stars: 5,
+        text: "La oficina de Baldwin Park en Maine Ave es maravillosa. Vine con un diente roto y me atendieron el mismo día. El dentista me explicó todas mis opciones claramente y nunca me presionó. ¡Qué alegre haber encontrado esta oficina!",
+      },
+      {
+        name: 'Marcus Lee',
+        stars: 5,
+        text: "Me hice los implantes dentales aquí y todo el proceso fue fluido de principio a fin. El financiamiento al 0% lo hizo realmente asequible, y el personal me llamó después del procedimiento. Lo recomiendo mucho a todos en el Valle de San Gabriel.",
+      },
+      {
+        name: 'Sofia Herrera',
+        stars: 5,
+        text: "Toda mi familia viene aquí ahora. El personal es bilingüe y muy paciente con mis hijos, y nos encargaron de todo el papeleo del seguro. Oficina limpia, esperas cortas y caras amables en cada visita.",
+      },
+    ],
+  },
   'south-gate': {
     en: [
       {

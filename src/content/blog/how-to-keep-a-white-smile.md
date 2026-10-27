@@ -6,7 +6,7 @@ author: "Liberty Smile Center"
 tags: ["teeth whitening", "cosmetic dentistry", "oral hygiene"]
 ---
 
-A bright, white smile is one of the first things people notice about you. Whether you have just completed a professional whitening treatment or simply want to keep your natural teeth looking their best, maintaining that brightness takes a combination of smart daily habits and regular dental visits. At Liberty Smile Center, we help patients across South Gate, Van Nuys, Whittier, La Habra, and Downey achieve and maintain radiant smiles.
+A bright, white smile is one of the first things people notice about you. Whether you have just completed a professional whitening treatment or simply want to keep your natural teeth looking their best, maintaining that brightness takes a combination of smart daily habits and regular dental visits. At Liberty Smile Center, we help patients across Baldwin Park, Downey, La Habra, South Gate, Van Nuys, and Whittier achieve and maintain radiant smiles.
 
 ## 1. Be Mindful of What You Eat and Drink
 

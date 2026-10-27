@@ -13,7 +13,7 @@ const contactSchema = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
   "name": "Contact Liberty Smile Center",
-  "description": "Contact Liberty Smile Center. Reach out to schedule an appointment or ask questions at any of our 5 locations.",
+  "description": "Contact Liberty Smile Center. Reach out to schedule an appointment or ask questions at any of our 6 locations.",
   "url": "https://libertysmilecenter.com/contact"
 };
 
@@ -21,7 +21,7 @@ const phoneMap: Record<string, string> = {};
 locations.forEach((loc) => { phoneMap[loc.slug] = loc.phoneDisplay; });
 ---
 
-<Layout title="Contact Us - Liberty Smile Center" description="Contact Liberty Smile Center. Reach out to schedule an appointment or ask questions at any of our 5 locations across Southern California." jsonLd={contactSchema} turnstile={true}>
+<Layout title="Contact Us - Liberty Smile Center" description="Contact Liberty Smile Center. Reach out to schedule an appointment or ask questions at any of our 6 locations across Southern California." jsonLd={contactSchema} turnstile={true}>
   <Header />
 
   <main id="main-content">

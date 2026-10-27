@@ -6,7 +6,7 @@ author: "Liberty Smile Center"
 tags: ["emergency dentistry", "oral health", "dental care"]
 ---
 
-Dental emergencies can happen at any time, whether during sports, while eating, or even in the middle of the night. Knowing how to identify one and what steps to take can mean the difference between saving and losing a tooth. At Liberty Smile Center, we reserve same-day appointment slots for emergencies at all five of our locations in South Gate, Van Nuys, Whittier, La Habra, and Downey.
+Dental emergencies can happen at any time, whether during sports, while eating, or even in the middle of the night. Knowing how to identify one and what steps to take can mean the difference between saving and losing a tooth. At Liberty Smile Center, we reserve same-day appointment slots for emergencies at all six of our locations in Baldwin Park, Downey, La Habra, South Gate, Van Nuys, and Whittier.
 
 ## Common Dental Emergencies
 
