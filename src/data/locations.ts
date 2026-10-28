@@ -60,14 +60,14 @@ export const locations: LocationData[] = [
     slug: 'downey',
     title: 'Dentist Downey CA | Liberty Smile Center',
     description:
-      'Top-rated dentist in Downey, CA. Dental Implants, Braces, Cosmetic & Oral Surgery. Accepts Medi-Cal and PPO. 0% Interest Financing. Call (562) 334-8990.',
+      'Top-rated dentist in Downey, CA. Dental Implants, Braces, Cosmetic & Oral Surgery. Accepts Medi-Cal and PPO. 0% Interest Financing. Call (562) 869-6688.',
     address: '9944 Lakewood Blvd, Downey, CA 90240',
     streetAddress: '9944 Lakewood Blvd',
     city: 'Downey',
     state: 'CA',
     postalCode: '90240',
-    phone: '5623348990',
-    phoneDisplay: '(562) 334-8990',
+    phone: '5628696688',
+    phoneDisplay: '(562) 869-6688',
     mapUrl:
       'https://www.google.com/maps?q=Liberty+Smile+Center+9944+Lakewood+Blvd+Downey+CA+90240&output=embed',
     geo: { latitude: '33.9387', longitude: '-118.132' },
@@ -83,7 +83,7 @@ export const locations: LocationData[] = [
     ],
     services: ['General Dentistry', 'Dental Implants', 'Orthodontics', 'Cosmetic Dentistry', 'Oral Surgery', 'Emergency Dentistry'],
     faqs: [
-      { question: 'Does Liberty Smile Center in Downey accept Medi-Cal?', answer: 'Yes, we accept Medi-Cal and most PPO insurance plans. Contact our Downey office at (562) 334-8990 to verify your coverage.' },
+      { question: 'Does Liberty Smile Center in Downey accept Medi-Cal?', answer: 'Yes, we accept Medi-Cal and most PPO insurance plans. Contact our Downey office at (562) 869-6688 to verify your coverage.' },
       { question: 'Do you offer dental implants in Downey?', answer: 'Yes. Our Downey office provides complete dental implant services, including single implants, multiple implants, and All-on-4 full-arch restoration with financing options.' },
       { question: 'Where is the Downey dental office located?', answer: 'Our Downey office is at 9944 Lakewood Blvd, Downey, CA 90240, easily accessible from the 5 and 605 freeways with ample parking.' },
     ],
