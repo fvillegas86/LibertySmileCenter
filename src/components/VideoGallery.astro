@@ -5,14 +5,14 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const VIDEO_BASE = 'https://vd.libertysmilecenter.com/videos';
-const portraitVideos = [
-  `${VIDEO_BASE}/videoplayback3.mp4`,
-  `${VIDEO_BASE}/videoplayback4.mp4`,
-  `${VIDEO_BASE}/videoplayback5.mp4`,
-  `${VIDEO_BASE}/videoplayback6.mp4`,
-  `${VIDEO_BASE}/videoplayback7.mp4`,
-];
-const landscapeVideo = `${VIDEO_BASE}/videoplayback1.mp4`;
+const portraitVideos = [3, 4, 5, 6, 7].map((n) => ({
+  src: `${VIDEO_BASE}/videoplayback${n}.mp4`,
+  poster: `/videos/posters/videoplayback${n}.jpg`,
+}));
+const landscapeVideo = {
+  src: `${VIDEO_BASE}/videoplayback1.mp4`,
+  poster: '/videos/posters/videoplayback1.jpg',
+};
 ---
 
 <section class="py-16 md:py-24 bg-slate-50">
@@ -24,7 +24,8 @@ const landscapeVideo = `${VIDEO_BASE}/videoplayback1.mp4`;
 
     <div class="max-w-3xl mx-auto mb-10">
       <video
-        src={landscapeVideo}
+        src={landscapeVideo.src}
+        poster={landscapeVideo.poster}
         controls
         preload="metadata"
         playsinline
@@ -33,9 +34,10 @@ const landscapeVideo = `${VIDEO_BASE}/videoplayback1.mp4`;
     </div>
 
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 max-w-6xl mx-auto">
-      {portraitVideos.map((src) => (
+      {portraitVideos.map((video) => (
         <video
-          src={src}
+          src={video.src}
+          poster={video.poster}
           controls
           preload="metadata"
           playsinline
