@@ -4,14 +4,15 @@ import { getLangFromUrl, useTranslations } from '../i18n/utils';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
+const VIDEO_BASE = 'https://vd.libertysmilecenter.com/videos';
 const portraitVideos = [
-  '/videos/videoplayback3.mp4',
-  '/videos/videoplayback4.mp4',
-  '/videos/videoplayback5.mp4',
-  '/videos/videoplayback6.mp4',
-  '/videos/videoplayback7.mp4',
+  `${VIDEO_BASE}/videoplayback3.mp4`,
+  `${VIDEO_BASE}/videoplayback4.mp4`,
+  `${VIDEO_BASE}/videoplayback5.mp4`,
+  `${VIDEO_BASE}/videoplayback6.mp4`,
+  `${VIDEO_BASE}/videoplayback7.mp4`,
 ];
-const landscapeVideo = '/videos/videoplayback1.mp4';
+const landscapeVideo = `${VIDEO_BASE}/videoplayback1.mp4`;
 ---
 
 <section class="py-16 md:py-24 bg-slate-50">
