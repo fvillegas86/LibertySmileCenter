@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import Hero from '../components/Hero.astro';
 import CallToAction from '../components/CallToAction.astro';
 import Reviews from '../components/Reviews.astro';
+import VideoGallery from '../components/VideoGallery.astro';
 import InsuranceBanner from '../components/InsuranceBanner.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import { locations, locationSlugs, type LocationData } from '../data/locations';
@@ -245,6 +246,8 @@ const pageServices = services.map((svc) => ({
         </div>
       </div>
     </section>
+
+    <VideoGallery />
 
     <Reviews location={locationSlug as 'south-gate' | 'van-nuys' | 'whittier' | 'la-habra' | 'downey' | 'baldwin-park'} />
 

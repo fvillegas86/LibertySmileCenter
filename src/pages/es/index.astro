@@ -6,6 +6,7 @@ import Footer from '../../components/Footer.astro';
 import ServiceFeatures from '../../components/ServiceFeatures.astro';
 import CallToAction from '../../components/CallToAction.astro';
 import InsuranceBanner from '../../components/InsuranceBanner.astro';
+import VideoGallery from '../../components/VideoGallery.astro';
 import { useTranslations, getRelativeLocaleUrl } from '../../i18n/utils';
 import { locations } from '../../data/locations';
 import { servicesES } from '../../data/services';
@@ -136,6 +137,8 @@ const homeSchema = {
         </div>
       </div>
     </section>
+
+    <VideoGallery />
 
     <!-- Locations Section -->
     <section id="locations" class="location-directory py-12 md:py-20 bg-brand-blue text-white">
