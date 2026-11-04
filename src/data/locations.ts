@@ -69,8 +69,8 @@ export const locations: LocationData[] = [
     phone: '5628696688',
     phoneDisplay: '(562) 869-6688',
     mapUrl:
-      'https://www.google.com/maps?q=Liberty+Smile+Center+9944+Lakewood+Blvd+Downey+CA+90240&output=embed',
-    geo: { latitude: '33.9387', longitude: '-118.132' },
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3309.689257191338!2d-118.11817592285892!3d33.949119573195986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2cd891291e0e1%3A0xe789af0dd35589!2sLiberty%20Smile%20Center!5e0!3m2!1sen!2sus!4v1793810796348!5m2!1sen!2sus',
+    geo: { latitude: '33.9491', longitude: '-118.1182' },
     areaServed: ['Downey', 'Bellflower', 'Lakewood', 'Paramount', 'Norwalk'],
     hours: [
       { day: 'Monday', time: '9:00 AM – 6:00 PM' },
@@ -102,8 +102,8 @@ export const locations: LocationData[] = [
     phone: '5626910738',
     phoneDisplay: '(562) 691-0738',
     mapUrl:
-      'https://www.google.com/maps?q=Liberty+Smile+Center+744+W+La+Habra+Blvd+La+Habra+CA+90631&output=embed',
-    geo: { latitude: '33.9395', longitude: '-117.9466' },
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3310.3648371914264!2d-117.95663162285902!3d33.931743373201904!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80dd2b6719115e8b%3A0x6aa0b3dbb81c6d83!2sLiberty%20Smile%20Center!5e0!3m2!1sen!2sus!4v1793810779209!5m2!1sen!2sus',
+    geo: { latitude: '33.9317', longitude: '-117.9566' },
     areaServed: ['La Habra', 'Fullerton', 'Brea', 'Buena Park', 'La Mirada'],
     hours: [
       { day: 'Monday', time: '9:00 AM – 6:00 PM' },
@@ -135,8 +135,8 @@ export const locations: LocationData[] = [
     phone: '8334960005',
     phoneDisplay: '(833) 496-0005',
     mapUrl:
-      'https://www.google.com/maps?q=Liberty+Smile+Center+8330+Long+Beach+Blvd+South+Gate+CA+90280&output=embed',
-    geo: { latitude: '33.966953', longitude: '-118.212711' },
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3309.165720536518!2d-118.22669972285779!3d33.962579773190726!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c9437804e577%3A0xb09479f8caed6ae3!2sLiberty%20Smile%20Center!5e0!3m2!1sen!2sus!4v1793810723676!5m2!1sen!2sus',
+    geo: { latitude: '33.9626', longitude: '-118.2267' },
     areaServed: ['South Gate', 'Lynwood', 'Huntington Park', 'Bell Gardens', 'Commerce'],
     hours: [
       { day: 'Monday', time: '9:00 AM – 6:00 PM' },
@@ -168,8 +168,8 @@ export const locations: LocationData[] = [
     phone: '8555986262',
     phoneDisplay: '(855) 598-6262',
     mapUrl:
-      'https://www.google.com/maps?q=Liberty+Smile+Center+6736+Sepulveda+Blvd+Van+Nuys+CA+91411&output=embed',
-    geo: { latitude: '34.201', longitude: '-118.465' },
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3300.1671642471447!2d-118.46845492285229!3d34.1932050731044!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2976ba6dea73b%3A0x6713a21416e4f03f!2sLiberty%20Smile%20Center%20Van%20Nuys%20-%20Implant%2C%20Braces%2C%20Cosmetic%20%26%20Oral%20Surgery!5e0!3m2!1sen!2sus!4v1793810813515!5m2!1sen!2sus',
+    geo: { latitude: '34.1932', longitude: '-118.4685' },
     areaServed: ['Van Nuys', 'Sherman Oaks', 'North Hollywood', 'Panorama City', 'Valley Glen'],
     hours: [
       { day: 'Monday', time: '9:00 AM – 6:00 PM' },
@@ -201,8 +201,8 @@ export const locations: LocationData[] = [
     phone: '5629039342',
     phoneDisplay: '(562) 903-9342',
     mapUrl:
-      'https://www.google.com/maps?q=Liberty+Smile+Center+13345+Telegraph+Rd+Whittier+CA+90605&output=embed',
-    geo: { latitude: '33.9292', longitude: '-118.0336' },
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3309.989519289179!2d-118.0494328228594!3d33.94139767319888!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2d3bcff925b7d%3A0x4319a5dd4f5ac011!2sLiberty%20Smile%20Center!5e0!3m2!1sen!2sus!4v1793810753943!5m2!1sen!2sus',
+    geo: { latitude: '33.9414', longitude: '-118.0494' },
     areaServed: ['Whittier', 'La Mirada', 'Norwalk', 'Pico Rivera', 'Santa Fe Springs'],
     hours: [
       { day: 'Monday', time: '9:00 AM – 6:00 PM' },
