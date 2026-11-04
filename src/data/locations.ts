@@ -36,8 +36,8 @@ export const locations: LocationData[] = [
     phone: '6263371506',
     phoneDisplay: '(626) 337-1506',
     mapUrl:
-      'https://www.google.com/maps?q=Liberty+Smile+Center+4157+Maine+Ave+Baldwin+Park+CA+91706&output=embed',
-    geo: { latitude: '34.0852', longitude: '-117.9609' },
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3304.2624420838765!2d-117.9608056!3d34.088416699999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2d7d513dd0cb3%3A0xdd3413a37d9d2279!2sLiberty%20Smile%20Center!5e0!3m2!1sen!2sus!4v1793810581350!5m2!1sen!2sus',
+    geo: { latitude: '34.0884', longitude: '-117.9608' },
     areaServed: ['Baldwin Park', 'West Covina', 'El Monte', 'La Puente', 'Irwindale'],
     hours: [
       { day: 'Monday', time: '9:00 AM – 6:00 PM' },
