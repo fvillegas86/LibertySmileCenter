@@ -60,14 +60,14 @@ export const locations: LocationData[] = [
     slug: 'downey',
     title: 'Dentist Downey CA | Liberty Smile Center',
     description:
-      'Top-rated dentist in Downey, CA. Dental Implants, Braces, Cosmetic & Oral Surgery. Accepts Medi-Cal and PPO. 0% Interest Financing. Call (562) 869-6688.',
+      'Top-rated dentist in Downey, CA. Dental Implants, Braces, Cosmetic & Oral Surgery. Accepts Medi-Cal and PPO. 0% Interest Financing. Call (562) 636-0004.',
     address: '9944 Lakewood Blvd, Downey, CA 90240',
     streetAddress: '9944 Lakewood Blvd',
     city: 'Downey',
     state: 'CA',
     postalCode: '90240',
-    phone: '5628696688',
-    phoneDisplay: '(562) 869-6688',
+    phone: '5626360004',
+    phoneDisplay: '(562) 636-0004',
     mapUrl:
       'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3309.689257191338!2d-118.11817592285892!3d33.949119573195986!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2cd891291e0e1%3A0xe789af0dd35589!2sLiberty%20Smile%20Center!5e0!3m2!1sen!2sus!4v1793810796348!5m2!1sen!2sus',
     geo: { latitude: '33.9491', longitude: '-118.1182' },
@@ -83,7 +83,7 @@ export const locations: LocationData[] = [
     ],
     services: ['General Dentistry', 'Dental Implants', 'Orthodontics', 'Cosmetic Dentistry', 'Oral Surgery', 'Emergency Dentistry'],
     faqs: [
-      { question: 'Does Liberty Smile Center in Downey accept Medi-Cal?', answer: 'Yes, we accept Medi-Cal and most PPO insurance plans. Contact our Downey office at (562) 869-6688 to verify your coverage.' },
+      { question: 'Does Liberty Smile Center in Downey accept Medi-Cal?', answer: 'Yes, we accept Medi-Cal and most PPO insurance plans. Contact our Downey office at (562) 636-0004 to verify your coverage.' },
       { question: 'Do you offer dental implants in Downey?', answer: 'Yes. Our Downey office provides complete dental implant services, including single implants, multiple implants, and All-on-4 full-arch restoration with financing options.' },
       { question: 'Where is the Downey dental office located?', answer: 'Our Downey office is at 9944 Lakewood Blvd, Downey, CA 90240, easily accessible from the 5 and 605 freeways with ample parking.' },
     ],
